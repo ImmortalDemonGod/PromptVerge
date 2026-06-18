@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mutmut-cache
+
+# Secrets & environment
+.env
+
+# Marvin scratch doc (regenerated)
+docs/marvin_doc_temp.md
+
+# Generated workflow artifacts
+outputs/prd_*.json
+outputs/task_*.json
+outputs/audit_*.json
+outputs/quiz_*.json
+
+# Generated KG extraction output
+kg_extraction_results.txt
