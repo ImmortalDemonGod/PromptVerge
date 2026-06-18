@@ -28,3 +28,14 @@ outputs/quiz_*.json
 
 # Generated KG extraction output
 kg_extraction_results.txt
+
+# Forensic audit pipeline transient run log (audit/ artifacts are committed by the pipeline)
+audit_run.log
+
+# Forensic pipeline per-agent scratch (resumable stageN.json/state.json stay tracked)
+audit/.work/a_*.json
+audit/.work/prompt_*.txt
+audit/.work/run.log
+
+# Blanket-ignore the entire forensic pipeline scratch/state tree (deliverables are audit/0N-*.md)
+audit/.work/
