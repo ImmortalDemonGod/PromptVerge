@@ -36,3 +36,6 @@ audit_run.log
 audit/.work/a_*.json
 audit/.work/prompt_*.txt
 audit/.work/run.log
+
+# Blanket-ignore the entire forensic pipeline scratch/state tree (deliverables are audit/0N-*.md)
+audit/.work/
