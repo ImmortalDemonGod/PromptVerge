@@ -495,6 +495,9 @@ async function stage3(state, s1, s2) {
   for (const c of disc.data.commands.filter((x) => ["install", "test", "coverage"].includes(x.purpose))) {
     if (DRY) { runLog.push({ cmd: c.cmd, purpose: c.purpose, code: 0, tail: "(dry-run: not executed)" }); continue; }
     log(`s3 run: ${c.cmd}`);
+    // c.cmd comes from the LLM's reading of the repo's own build files (Makefile/pyproject/CI).
+    // Shell injection is an accepted risk: this tool is designed for trusted repos only,
+    // and build commands intentionally rely on shell features (pipes, env vars, redirects).
     const r = await sh("bash", ["-lc", `timeout 1200 ${c.cmd}`]);
     const tail = (r.out + "\n" + r.err).slice(-4000);
     runLog.push({ cmd: c.cmd, purpose: c.purpose, code: r.code, tail });
