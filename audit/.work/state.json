@@ -1,0 +1,10 @@
+{
+  "completed": {
+    "stage1": "2026-06-18 00:56:27"
+  },
+  "totalUsd": 1.5793692,
+  "costByStage": {
+    "preflight": 0.0161716,
+    "s1": 1.5631976
+  }
+}
