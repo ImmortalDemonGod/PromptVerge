@@ -19,7 +19,7 @@ classification:
   sod_mode: S0
   critical_surfaces: []
   blast_radius: component
-  classification_rationale: "TODO: Describe why this tier was chosen"
+  classification_rationale: "Test-only stage: two new files added (tests/test_validator_f171.py, tests/test_validator_f171.bug-catalog.md); no production code changed; validate_document has zero production callers; additions cannot regress production behavior"
   classified_by: "Claude"
   classified_at: "2026-06-21T07:03:39Z"
 ```
