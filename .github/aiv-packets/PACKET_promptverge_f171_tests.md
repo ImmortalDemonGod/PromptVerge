@@ -45,6 +45,56 @@ classification:
 
 
 
+### Class A (Behavioral Evidence)
+
+**Pytest run on `tests/test_validator_f171.py` (current HEAD, buggy `validator.py:22` unfixed):**
+
+```
+collected 6 items
+
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_code_audit
+  AssertionError: assert False is True
+  (validate_document(CodeAudit(...)) returns False — uuid.UUID not accepted for type:"string")
+
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_prd
+  AssertionError: assert False is True
+  (validate_document(ProductRequirementsDocument(...)) returns False — uuid.UUID not accepted)
+
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_deep_work_task
+  AssertionError: assert False is True
+  (validate_document(DeepWorkTask(...)) returns False — uuid.UUID / datetime not accepted)
+
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_kg_quiz
+  AssertionError: assert False is True
+  (validate_document(KnowledgeGraphQuiz(...)) returns False — uuid.UUID / datetime not accepted)
+
+FAILED tests/test_validator_f171.py::test_validate_document_uuid_field_type_is_the_cause
+  AssertionError: assert False is True
+  (mechanism probe: model_dump() returns UUID instance; validate_document returns False)
+
+PASSED tests/test_validator_f171.py::test_validate_document_rejects_document_with_wrong_doc_type
+
+5 failed, 1 passed in 0.13s
+```
+
+**Interpretation:** All five tests that assert `validate_document(...) is True` FAIL — confirming the tests are genuinely RED. The one test asserting `False` (wrong doc_type) PASSES — confirming the function rejects non-conformant documents. This is the expected RED state for the design-tests stage: tests will pass only after `validator.py:22` is changed from `model_dump()` to `model_dump(mode='json')`.
+
+---
+
+### Class D (Static Analysis)
+
+**ruff** (`tests/test_validator_f171.py`, HEAD after removing unused import):
+
+```
+All checks passed!
+```
+
+**mypy:** Not available in this environment (`No module named mypy`). N/A — ruff covers type-annotation surface for a test file of this complexity; the public API types are validated at import time via Pydantic model constructors.
+
+**Build/import check:** `python -c "import tests.test_validator_f171"` — module loads without error; all document-type imports resolve from `promptverge.schemas.documents`.
+
+---
+
 ### Class E (Intent Alignment)
 
 | Field | Value |
