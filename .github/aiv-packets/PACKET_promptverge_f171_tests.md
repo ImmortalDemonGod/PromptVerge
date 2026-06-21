@@ -45,6 +45,17 @@ classification:
 
 
 
+### Class E (Intent Alignment)
+
+| Field | Value |
+|-------|-------|
+| **Canonical intent URL** | https://github.com/ImmortalDemonGod/PromptVerge/blob/09af5f6ccdd5058bd3a8d76f7ce7e7fa251f382a/audit/02-static-audit.md#L181 |
+| **Requirement satisfied** | F171 audit finding: validate_document incorrectly returns False for conformant PromptVerge documents because model_dump() emits uuid.UUID/datetime/date objects that jsonschema's type:"string" check rejects. Tests must be RED (failing) until validator.py:22 is fixed with model_dump(mode='json'). |
+| **Stage** | design-tests (RED test authoring — no fix, tests must fail) |
+| **Alignment verdict** | ALIGNED — five RED tests assert validate_document returns True for CodeAudit, PRD, DeepWorkTask, KnowledgeGraphQuiz; one contract-pin test asserts False for a schema-violating doc_type. Tests fail 5/6 on buggy code, confirming the goal signal from the finding. |
+
+---
+
 ### Class B (Referential Evidence)
 
 **Scope Inventory** (from 2 file references across evidence files)
