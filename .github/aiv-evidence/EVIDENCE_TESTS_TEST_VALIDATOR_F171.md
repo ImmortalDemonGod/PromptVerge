@@ -1,8 +1,9 @@
 # AIV Evidence File (v1.0)
 
 **File:** `tests/test_validator_f171.py`
-**Commit:** `eae51c4`
-**Generated:** 2026-06-21T07:03:34Z
+**Commit:** `6175f06`
+**Previous:** `7649259`
+**Generated:** 2026-06-21T07:29:06Z
 **Protocol:** AIV v2.0 + Addendum 2.7 (Zero-Touch Mandate)
 
 ---
@@ -15,18 +16,18 @@ classification:
   sod_mode: S0
   critical_surfaces: []
   blast_radius: "tests/test_validator_f171.py"
-  classification_rationale: "New test file exercising existing public API validate_document; no production code changes; R1 standard"
+  classification_rationale: "R1: new test file only; no production code changes; exercises existing public API validate_document"
   classified_by: "Claude"
-  classified_at: "2026-06-21T07:03:34Z"
+  classified_at: "2026-06-21T07:29:06Z"
 ```
 
 ## Claim(s)
 
-1. validate_document(CodeAudit(...)) returns False on the buggy model_dump() call at validator.py:22 instead of the expected True
-2. validate_document(ProductRequirementsDocument(...)) returns False on the buggy model_dump() call instead of the expected True
-3. validate_document(DeepWorkTask(...)) returns False on the buggy model_dump() call instead of the expected True
-4. validate_document(KnowledgeGraphQuiz(...)) returns False on the buggy model_dump() call instead of the expected True
-5. model_dump() returns uuid.UUID (not str) for doc_id fields, confirming the proximate cause of the ValidationError in validate_document
+1. validate_document(CodeAudit(...real instance...)) returns False — test asserts True to be RED until validator.py:22 is fixed
+2. validate_document(ProductRequirementsDocument(...real instance...)) returns False — test asserts True to be RED
+3. validate_document(DeepWorkTask(...real instance...)) returns False — test asserts True to be RED
+4. validate_document(KnowledgeGraphQuiz(...real instance...)) returns False — test asserts True to be RED
+5. model_dump() returns uuid.UUID (not str) for doc_id — precondition assertion confirms bug mechanism
 6. No existing tests were modified or deleted during this change.
 
 ---
@@ -36,19 +37,19 @@ classification:
 ### Class E (Intent Alignment)
 
 - **Link:** [https://github.com/ImmortalDemonGod/PromptVerge/blob/09af5f6ccdd5058bd3a8d76f7ce7e7fa251f382a/audit/02-static-audit.md#L181](https://github.com/ImmortalDemonGod/PromptVerge/blob/09af5f6ccdd5058bd3a8d76f7ce7e7fa251f382a/audit/02-static-audit.md#L181)
-- **Requirements Verified:** F171 audit finding requires that validate_document(CodeAudit(...real instance...)) returns True; tests must be RED until validator.py:22 is fixed
+- **Requirements Verified:** F171: validate_document must return True for conformant CodeAudit/PRD/DeepWorkTask/KnowledgeGraphQuiz instances; tests must be RED (failing) until validator.py:22 is fixed with model_dump(mode='json')
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`eae51c4`](https://github.com/ImmortalDemonGod/PromptVerge/tree/eae51c452e307dd5bbb0a07e9e131b471e49fa46))
+**Scope Inventory** (SHA: [`6175f06`](https://github.com/ImmortalDemonGod/PromptVerge/tree/6175f0641cc0c035752b20b7af608dac8dffbbcf))
 
-- [`tests/test_validator_f171.py#L1-L195`](https://github.com/ImmortalDemonGod/PromptVerge/blob/eae51c452e307dd5bbb0a07e9e131b471e49fa46/tests/test_validator_f171.py#L1-L195)
+- [`tests/test_validator_f171.py#L1-L194`](https://github.com/ImmortalDemonGod/PromptVerge/blob/6175f0641cc0c035752b20b7af608dac8dffbbcf/tests/test_validator_f171.py#L1-L194)
 
 ### Class A (Execution Evidence)
 
 **Per-symbol test coverage (AST analysis):**
 
-- **`minimal_code_audit`** (L1-L195): FAIL -- WARNING: No tests import or call `minimal_code_audit`
+- **`minimal_code_audit`** (L1-L194): FAIL -- WARNING: No tests import or call `minimal_code_audit`
 - **`minimal_prd`** (unknown): FAIL -- WARNING: No tests import or call `minimal_prd`
 - **`minimal_deep_work_task`** (unknown): FAIL -- WARNING: No tests import or call `minimal_deep_work_task`
 - **`minimal_kg_quiz`** (unknown): FAIL -- WARNING: No tests import or call `minimal_kg_quiz`
@@ -63,18 +64,18 @@ classification:
 
 ### Code Quality (Linting & Types)
 
-- **ruff:** 14 error(s)
+- **ruff:** All checks passed
 - **mypy:** 
 
 ## Claim Verification Matrix
 
 | # | Claim | Type | Evidence | Verdict |
 |---|-------|------|----------|---------|
-| 1 | validate_document(CodeAudit(...)) returns False on the buggy... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
-| 2 | validate_document(ProductRequirementsDocument(...)) returns ... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
-| 3 | validate_document(DeepWorkTask(...)) returns False on the bu... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
-| 4 | validate_document(KnowledgeGraphQuiz(...)) returns False on ... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
-| 5 | model_dump() returns uuid.UUID (not str) for doc_id fields, ... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 1 | validate_document(CodeAudit(...real instance...)) returns Fa... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 2 | validate_document(ProductRequirementsDocument(...real instan... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 3 | validate_document(DeepWorkTask(...real instance...)) returns... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 4 | validate_document(KnowledgeGraphQuiz(...real instance...)) r... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 5 | model_dump() returns uuid.UUID (not str) for doc_id — precon... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
 | 6 | No existing tests were modified or deleted during this chang... | structural | Class C not collected | REVIEW MANUAL REVIEW |
 
 **Verdict summary:** 0 verified, 0 unverified, 6 manual review.
@@ -90,4 +91,4 @@ Ruff/mypy results are in Code Quality (not Class A) because they prove syntax/ty
 
 ## Summary
 
-Add RED unit tests for F171: validate_document incorrectly returns False for all real PromptVerge document types due to model_dump() emitting non-JSON-serializable Python types
+Remove unused HpeLearningMeta import; RED tests demonstrate BUG-01 validate_document returns False for all real document types

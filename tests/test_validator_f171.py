@@ -15,7 +15,6 @@ from promptverge.schemas.documents import (
     CodeAudit,
     CodeAuditFinding,
     DeepWorkTask,
-    HpeLearningMeta,
     KnowledgeGraphQuiz,
     ProductRequirementsDocument,
     QuizQuestion,
