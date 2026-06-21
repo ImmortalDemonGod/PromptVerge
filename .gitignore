@@ -39,3 +39,7 @@ audit/.work/run.log
 
 # Blanket-ignore the entire forensic pipeline scratch/state tree (deliverables are audit/0N-*.md)
 audit/.work/
+# AIV scaffolding (corpus-captured) + provisioned venv — kept off the PR (#1/#40; .venv dangles on CI)
+.aiv/launch-briefs/
+.aiv/plans/
+.venv
