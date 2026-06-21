@@ -1,0 +1,16 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+rootdir: /root/PromptVerge-promptverge-F171
+configfile: pyproject.toml
+plugins: mock-3.15.1
+collecting ... collected 6 items
+
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_code_audit PASSED [ 16%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_prd PASSED [ 33%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_deep_work_task PASSED [ 50%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_kg_quiz PASSED [ 66%]
+tests/test_validator_f171.py::test_validate_document_uuid_field_type_is_the_cause PASSED [ 83%]
+tests/test_validator_f171.py::test_validate_document_rejects_document_with_wrong_doc_type PASSED [100%]
+
+============================== 6 passed in 0.11s ===============================

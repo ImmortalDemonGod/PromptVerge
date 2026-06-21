@@ -1,0 +1,11 @@
+POSITIVE: validate_document(valid CodeAudit) = True
+/usr/local/lib/python3.11/dist-packages/pydantic/main.py:475: UserWarning: Pydantic serializer warnings:
+  PydanticSerializationUnexpectedValue(Expected `uuid` - serialized value may not be as expected [field_name='doc_id', input_value='5f2524ee-9a4b-43a2-a365-7549d83ee5fd', input_type=str])
+  PydanticSerializationUnexpectedValue(Expected `datetime` - serialized value may not be as expected [field_name='timestamp_utc', input_value='2026-06-21T07:46:05.651800Z', input_type=str])
+  PydanticSerializationUnexpectedValue(Expected `date` - serialized value may not be as expected [field_name='date', input_value='2026-01-01', input_type=str])
+  PydanticSerializationUnexpectedValue(Expected `SeverityOverview` - serialized value may not be as expected [field_name='severity_overview', input_value={'critical': 0, 'high': 1, 'medium': 0, 'low': 0}, input_type=dict])
+  PydanticSerializationUnexpectedValue(Expected `CodeAuditFinding` - serialized value may not be as expected [field_name='findings', input_value={'file': ['src/main.py'],..._length=10 constraint.'}, input_type=dict])
+  return self.__pydantic_serializer__.to_python(
+NEGATIVE: validate_document(tampered CodeAudit doc_type='not_a_real_type') = False
+
+BOTH PATHS VERIFIED via validate_document() directly.

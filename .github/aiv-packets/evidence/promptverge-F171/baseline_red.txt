@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- /usr/local/bin/python
+cachedir: .pytest_cache
+rootdir: /tmp/promptverge-F171_base
+configfile: pyproject.toml
+plugins: mock-3.15.1
+collecting ... collected 6 items
+
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_code_audit FAILED [ 16%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_prd FAILED [ 33%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_deep_work_task FAILED [ 50%]
+tests/test_validator_f171.py::test_validate_document_accepts_conformant_kg_quiz FAILED [ 66%]
+tests/test_validator_f171.py::test_validate_document_uuid_field_type_is_the_cause FAILED [ 83%]
+tests/test_validator_f171.py::test_validate_document_rejects_document_with_wrong_doc_type PASSED [100%]
+
+=================================== FAILURES ===================================
+_____________ test_validate_document_accepts_conformant_code_audit _____________
+tests/test_validator_f171.py:119: in test_validate_document_accepts_conformant_code_audit
+    assert validate_document(minimal_code_audit) is True
+E   AssertionError: assert False is True
+E    +  where False = validate_document(CodeAudit(doc_type='code_audit', doc_version='2.0.0', doc_id=UUID('f138b14d-8de2-4331-b056-f1186046c928'), timestamp_utc=datetime.datetime(2026, 6, 21, 7, 44, 3, 742230, tzinfo=datetime.timezone.utc), content_version='1.0', target_repo='test/repo', source_commit_sha='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', date=datetime.date(2026, 1, 1), severity_overview=SeverityOverview(critical=0, high=1, medium=0, low=0), findings=[CodeAuditFinding(file=['src/main.py'], category='logic', severity='high', finding='A finding long enough to pass the min_length=10 constraint.')]))
+________________ test_validate_document_accepts_conformant_prd _________________
+tests/test_validator_f171.py:128: in test_validate_document_accepts_conformant_prd
+    assert validate_document(minimal_prd) is True
+E   AssertionError: assert False is True
+E    +  where False = validate_document(ProductRequirementsDocument(doc_type='prd', doc_version='2.0.0', doc_id=UUID('77857973-0401-4738-85aa-5fd73fbad1e5'), timestamp_utc=datetime.datetime(2026, 6, 21, 7, 44, 3, 760951, tzinfo=datetime.timezone.utc), content_version='1.0', status='draft', date=datetime.date(2026, 1, 1), product_name='Test Product', source_audit_id=UUID('5021e0a9-2c46-4544-9374-7f30dad29a5e')))
+___________ test_validate_document_accepts_conformant_deep_work_task ___________
+tests/test_validator_f171.py:137: in test_validate_document_accepts_conformant_deep_work_task
+    assert validate_document(minimal_deep_work_task) is True
+E   AssertionError: assert False is True
+E    +  where False = validate_document(DeepWorkTask(doc_type='deep_work_task', doc_version='2.0.0', doc_id=UUID('88d48059-f0c8-4ec9-9fac-93eab65ec02c'), timestamp_utc=datetime.datetime(2026, 6, 21, 7, 44, 3, 780291, tzinfo=datetime.timezone.utc), id='T-1', title='Implement the validation fix', description='A detailed description at least twenty chars long to satisfy pydantic.', status='pending', priority='high', test_strategy='Unit tests for all document types.', prd_ref=None, subtasks=[Subtask(id='1.1', title='Write tests', status='pending', implementation_details={'steps': ['write test'], 'testing': ['run pytest']})], hpe_learning_meta=None, labels=None))
+______________ test_validate_document_accepts_conformant_kg_quiz _______________
+tests/test_validator_f171.py:146: in test_validate_document_accepts_conformant_kg_quiz
+    assert validate_document(minimal_kg_quiz) is True
+E   assert False is True
+E    +  where False = validate_document(KnowledgeGraphQuiz(doc_type='quiz', doc_version='2.0.0', doc_id=UUID('9ceb42f8-5cab-4de3-b5ec-4b17c80bcba8'), timestamp_utc=datetime.datetime(2026, 6, 21, 7, 44, 3, 795786, tzinfo=datetime.timezone.utc), content_version='1.0', title='Quiz: Pydantic Internals', tags=['pydantic', 'quiz'], status='draft', source_reference=SourceReference(doi=None, uri=None, internal_doc_id=None, description='Test reference.'), questions=[QuizQuestion(q="What does model_dump(mode='json') do?", choices=['Returns Python objects', 'Returns JSON primitives'], correct_answer='Returns JSON primitives')]))
+_____________ test_validate_document_uuid_field_type_is_the_cause ______________
+tests/test_validator_f171.py:162: in test_validate_document_uuid_field_type_is_the_cause
+    assert validate_document(minimal_code_audit) is True
+E   AssertionError: assert False is True
+E    +  where False = validate_document(CodeAudit(doc_type='code_audit', doc_version='2.0.0', doc_id=UUID('ef6dc9f6-000d-4a6c-92e9-90fb1e19bdda'), timestamp_utc=datetime.datetime(2026, 6, 21, 7, 44, 3, 806920, tzinfo=datetime.timezone.utc), content_version='1.0', target_repo='test/repo', source_commit_sha='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', date=datetime.date(2026, 1, 1), severity_overview=SeverityOverview(critical=0, high=1, medium=0, low=0), findings=[CodeAuditFinding(file=['src/main.py'], category='logic', severity='high', finding='A finding long enough to pass the min_length=10 constraint.')]))
+=========================== short test summary info ============================
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_code_audit
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_prd
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_deep_work_task
+FAILED tests/test_validator_f171.py::test_validate_document_accepts_conformant_kg_quiz
+FAILED tests/test_validator_f171.py::test_validate_document_uuid_field_type_is_the_cause
+========================= 5 failed, 1 passed in 0.12s ==========================
