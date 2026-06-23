@@ -1,0 +1,91 @@
+# Golden Verdict Cards — hand-authored reference set
+#
+# Dual purpose:
+#   1. The P1 seed deck — the first real Verdict Cards, approved by hand.
+#   2. The QUALITY BENCHMARK — the north star the Emitter's LLM output is graded
+#      against. When PromptVerge auto-drafts cards from a verdict, its candidates
+#      should approach these in correctness, generalizability, and "encodes the
+#      gap I actually had." If they don't, the prompt isn't good enough yet.
+#
+# Authored 2026-06-22 from the two minted verdicts. Card text is grounded in each
+# verdict's comparison/review sidecars + necessary external enrichment (the part a
+# pure transform can't produce — see card 38-A).
+#
+# Format is flashcore-ingestable (deck/q/a/tags/origin_task). `_meta` is benchmark-
+# only annotation and is stripped before ingest.
+
+deck: "SVP::Verdicts"
+tags: [svp-verdict]
+cards:
+
+  # ── Verdict #38 — DocInsight, eval() RCE ─────────────────────────────────
+  # The prediction was incoherent (transcription noise), approach_match=different.
+  # So there is NO re-derivation card here — the value is the concept the failed
+  # verdict EXPOSED, enriched from outside the verdict.
+
+  - q: "Why is calling `eval()` on a string returned by an LLM a security risk, and what should you use instead?"
+    a: |
+      `eval()` executes arbitrary Python. If any part of the string is attacker-influenced
+      (LLM output is), that's remote code execution (RCE). Use `ast.literal_eval()`: it parses
+      only Python literals (list/dict/tuple/str/num/bool/None) and raises `ValueError`/`SyntaxError`
+      on anything else — function calls, names, operators.
+    tags: [svp-verdict, concept, security, python, docinsight, pr-38]
+    origin_task: "SVP:ImmortalDemonGod/DocInsight#38"
+    _meta:
+      kind: concept
+      seed: "comparison.rationale named eval→ast.literal_eval; review praise note confirmed it raises ValueError on non-literals"
+      enrichment: "what RCE is, and what literal_eval accepts/rejects — external knowledge, NOT in the verdict"
+      why_gold: "this is the exact gap that made #38 incoherent; the card teaches what the operator wished he'd known"
+
+  - q: "Give one input `ast.literal_eval` accepts and one it rejects."
+    a: |
+      Accepts: `'[1, 2, "x"]'` (a list literal).
+      Rejects (raises ValueError): `'__import__("os").system("...")'` — a function call, not a literal.
+    tags: [svp-verdict, concept, security, python, docinsight, pr-38]
+    origin_task: "SVP:ImmortalDemonGod/DocInsight#38"
+    _meta:
+      kind: concept-boundary
+      enrichment: "pure external knowledge"
+      why_gold: "drills the accept/reject boundary; optional second card — include only if the first leaves the boundary fuzzy"
+
+  # ── Verdict #39 — flashcore, infinite retry loop (F82) ────────────────────
+  # Coherent prediction (approach_match=similar), rich comparison + valid_critique
+  # + 3 review notes. Warrants a concept card, a re-derivation card, and one
+  # note-lesson card.
+
+  - q: "A `while` loop consumes items from a queue and hits `continue` when an item fails to process. What bug does this create, and what's the fix?"
+    a: |
+      Infinite retry — `continue` re-loops without removing the failed item, so the same item is
+      pulled and fails forever. Fix: remove/skip the item from the queue BEFORE `continue`, and
+      track failures separately from successes so the loop can terminate and report a mixed outcome.
+    tags: [svp-verdict, concept, control-flow, flashcore, pr-39]
+    origin_task: "SVP:ImmortalDemonGod/flashcore#39"
+    _meta:
+      kind: concept
+      seed: "comparison.rationale: failed submit_review → continue loops back without dequeue"
+      why_gold: "generalized past flashcore — the durable lesson is 'never continue past a failure without advancing the queue'"
+
+  - q: |
+      Pre-fix review loop (flashcore review_ui, ~lines 86–114): on a failed `submit_review` the loop
+      hits a bare `continue`. What is the defect and the fix?
+    a: |
+      Defect: the failure branch `continue`s without dequeuing → infinite retry on the same card.
+      Fix: call `manager.skip_card()` to dequeue before `continue`; add `success_count`/`failed_count`;
+      return a bool; subtract `skipped_card_count` in `get_session_stats()`.
+    tags: [svp-verdict, re-derivation, flashcore, pr-39]
+    origin_task: "SVP:ImmortalDemonGod/flashcore#39"
+    _meta:
+      kind: re-derivation
+      precondition: "only valid because #39's prediction was coherent; #38 gets no such card"
+      why_gold: "runs the cognitive-evidence loop as recall — re-derive the actual fix from pre-fix context"
+
+  - q: "A one-line bug (a misplaced `continue`) gets fixed with a new public method, two new counters, and a changed return type. What should a reviewer ask?"
+    a: |
+      Is the scope proportional to the bug? A large surface change for a one-line defect is legitimate
+      only if it fixes latent issues — otherwise it's scope creep worth justifying.
+    tags: [svp-verdict, review-lesson, flashcore, pr-39]
+    origin_task: "SVP:ImmortalDemonGod/flashcore#39"
+    _meta:
+      kind: review-note-lesson
+      source: "review-pr39.json suggestion note"
+      why_gold: "proof that a Review Note CAN be a card when it encodes a durable, reusable judgment"
