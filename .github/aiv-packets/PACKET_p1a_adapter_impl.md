@@ -193,6 +193,17 @@ Last touch: `397ec5f` (design-tests stage). This PR adds no further commits to t
 
 **Pre-existing suite status:** The 5 tests that collect and run in `test_cli.py`/`test_completeness.py` pass 5/5. The 9 collection failures in `test_cli.py` and all collection failures in `test_e2e_flow.py`, `test_engineering_workflow_*.py`, `test_full_workflow.py`, `test_kg_direct.py`, `test_knowledge_workflow_units.py` are pre-existing `ModuleNotFoundError`s (missing `prefect`, `marvin` packages). Confirmed pre-existing by `git stash` isolation test: identical error count before and after applying this change.
 
+**SHA-256 manifest for functional artifacts introduced by this change:**
+
+```
+$ shasum -a 256 promptverge/emit.py pyproject.toml tests/test_emit.py
+e705e82d5bfce3c10562377fe43aedddfc9bf6cdcf0b658c4b6103a991915f6b  promptverge/emit.py
+33248ff5de6dd800c4d6a217b865e168ced24fe97737180a9e33f7a11c6d07d8  pyproject.toml
+db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
+```
+
+`tests/test_emit.py` is included for completeness (it is the test file whose chain-of-custody this section asserts); its hash matches the artifact last touched at `397ec5f`. `promptverge/emit.py` and `pyproject.toml` are the two functional files introduced/modified by commit `d597fb3`.
+
 ---
 
 ## Verification Methodology

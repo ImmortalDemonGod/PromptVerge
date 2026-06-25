@@ -148,6 +148,16 @@ ed27bd9 test(design): bug catalog for to_flashcards() P1a adapter
 
 Both files are NEW in this change (no prior history). No pre-existing test file was modified or deleted. The test suite's pre-existing files (`test_cli.py`, `test_completeness.py`, `test_e2e_flow.py`, etc.) are untouched — confirmed by `git diff 043ddda 397ec5f -- tests/ | grep "^diff" | grep -v test_emit`.
 
+**SHA-256 manifest for functional artifacts introduced by this change:**
+
+```
+$ shasum -a 256 tests/test_emit.py promptverge/emit.py.bug-catalog.md
+db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
+f69fa4a92296670a376d198cc5258c341cb72ed1f3c996cf7b2b0468a96ee449  promptverge/emit.py.bug-catalog.md
+```
+
+Both files are the deliverables of this change (`p1a-adapter-tests`). `tests/test_emit.py` last touched at `397ec5f`; `promptverge/emit.py.bug-catalog.md` last touched at `ed27bd9`.
+
 ---
 
 ## Verification Methodology
