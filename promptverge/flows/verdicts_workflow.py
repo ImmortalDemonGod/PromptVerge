@@ -91,7 +91,7 @@ def post_pending_task(task_payload: dict, base_url: str = _TASKS_API_BASE_URL) -
         url, data=data, method="POST",
         headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(req) as resp:
+    with urllib.request.urlopen(req, timeout=30) as resp:
         return json.loads(resp.read())
 
 
@@ -102,7 +102,7 @@ def get_task_status(task_id: str, base_url: str = _TASKS_API_BASE_URL) -> str:
     Returns "" if task_id not found.
     """
     url = f"{base_url}/api/v1/tasks"
-    with urllib.request.urlopen(url) as resp:
+    with urllib.request.urlopen(url, timeout=30) as resp:
         tasks: list[dict] = json.loads(resp.read())
     for t in tasks:
         if t.get("id") == task_id:
@@ -133,7 +133,8 @@ def run_verdicts_flow(
 
     submitted = 0
     written = 0
-    cards_to_write: list[Card] = []
+    # Collect (task_id, card) so mark_reconciled runs only after a successful write.
+    cards_to_write: list[tuple[str, Card]] = []
 
     for bundle in bundles:
         card_dicts = to_flashcards(bundle)
@@ -147,6 +148,19 @@ def run_verdicts_flow(
 
             card = convert_card_dict_to_flashcore(card_dict)
 
+            # Reserve the watermark row BEFORE the external POST so that a crash
+            # between POST and the subsequent update cannot silently double-submit.
+            # On POST failure the reservation is deleted, allowing a future retry.
+            store.insert_candidate(
+                origin_task=origin_task,
+                card_hash=ch,
+                cultivation_task_id="",  # placeholder; promoted after successful POST
+                front=card.front,
+                back=card.back,
+                deck_name=card.deck_name,
+                tags_json=json.dumps(sorted(card.tags)),
+            )
+
             task_payload: dict = {
                 "title": card.front[:100],
                 "status": "pending",
@@ -158,30 +172,24 @@ def run_verdicts_flow(
 
             try:
                 response = post_pending_task(task_payload, base_url=tasks_api_base_url)
-            except Exception as exc:
+            except (urllib.error.HTTPError, urllib.error.URLError) as exc:
                 log.warning("POST /tasks failed for %s: %s — skipping (D5)", origin_task, exc)
+                store.delete_candidate(origin_task, ch)
                 continue
 
             task_id = response.get("id", "")
             submitted += 1
+            store.update_cultivation_task_id(origin_task, ch, task_id)
 
-            store.insert_candidate(
-                origin_task=origin_task,
-                card_hash=ch,
-                cultivation_task_id=task_id,
-                front=card.front,
-                back=card.back,
-                deck_name=card.deck_name,
-                tags_json=json.dumps(sorted(card.tags)),
-            )
-
-            # Immediate reconcile check from POST response status (ADR 0002 gate)
+            # Immediate reconcile check from POST response status (ADR 0002 gate).
+            # Deferred: mark_reconciled runs after write_cards_to_flashdb succeeds.
             if response.get("status") == "done":
-                cards_to_write.append(card)
-                store.mark_reconciled(task_id)
+                cards_to_write.append((task_id, card))
 
     if cards_to_write:
-        write_cards_to_flashdb(cards_to_write)
+        write_cards_to_flashdb([c for _, c in cards_to_write])
+        for tid, _ in cards_to_write:
+            store.mark_reconciled(tid)
         written = len(cards_to_write)
 
     return {"submitted": submitted, "written": written}
@@ -216,7 +224,7 @@ def reconcile_verdicts(
 
     # GET all tasks and filter to those we submitted (D4)
     url = f"{tasks_api_base_url}/api/v1/tasks"
-    with urllib.request.urlopen(url) as resp:
+    with urllib.request.urlopen(url, timeout=30) as resp:
         all_tasks: list[dict] = json.loads(resp.read())
 
     reconciled = 0
