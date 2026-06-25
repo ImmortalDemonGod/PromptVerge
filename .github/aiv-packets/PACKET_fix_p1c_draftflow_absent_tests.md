@@ -4,7 +4,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Repository** | github.com/ImmortalDemonGod/aiv-protocol |
+| **Repository** | github.com/ImmortalDemonGod/PromptVerge |
 | **Change ID** | fix-p1c-draftflow-absent-tests |
 | **Commits** | `142f440`, `d57d6c6`, `f31c8ab` |
 | **Head SHA** | `f31c8ab` |
