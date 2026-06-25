@@ -1,7 +1,7 @@
 # AIV Evidence File (v1.0)
 
 **File:** `promptverge/emit.py`
-**Commit:** `85da9ed`
+**Commit:** `d597fb3`
 **Generated:** 2026-06-25T08:58:41Z
 **Protocol:** AIV v2.0 + Addendum 2.7 (Zero-Touch Mandate)
 
@@ -44,9 +44,9 @@ classification:
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`85da9ed`](https://github.com/ImmortalDemonGod/PromptVerge/tree/85da9ed048f6e5151a484d3b7323cad5e111131f))
+**Scope Inventory** (SHA: [`d597fb3`](https://github.com/ImmortalDemonGod/PromptVerge/tree/d597fb38fcdc9817a216446b97c3491bf10e103e))
 
-- [`promptverge/emit.py#L1-L95`](https://github.com/ImmortalDemonGod/PromptVerge/blob/85da9ed048f6e5151a484d3b7323cad5e111131f/promptverge/emit.py#L1-L95)
+- [`promptverge/emit.py#L1-L95`](https://github.com/ImmortalDemonGod/PromptVerge/blob/d597fb38fcdc9817a216446b97c3491bf10e103e/promptverge/emit.py#L1-L95)
 
 ### Class A (Execution Evidence)
 
