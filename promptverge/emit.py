@@ -40,7 +40,8 @@ def to_flashcards(bundle: VerdictBundle) -> list[Card]:
     rationale: str = ai.get("rationale", "").strip()
     approach_match: str = ai.get("approach_match", "")
 
-    comments: list[dict] = bundle["review"].get("comments", [])
+    raw_comments = bundle.get("review", {}).get("comments", [])
+    comments: list[dict] = [c for c in raw_comments if isinstance(c, dict)]
     suggestion: dict | None = next(
         (c for c in comments if c.get("kind") == "suggestion"), None
     )
@@ -85,7 +86,7 @@ def to_flashcards(bundle: VerdictBundle) -> list[Card]:
         cards.append(
             Card(
                 deck=deck,
-                front=suggestion["comment"],
+                front=suggestion.get("comment", ""),
                 back=f"Grounded in: {suggestion.get('grounded_in', '')}",
                 tags=base_tags + ["review-lesson", repo_slug, pr_tag],
                 origin_task=origin_task,
