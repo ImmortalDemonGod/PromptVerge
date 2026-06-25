@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from promptverge.emit import Card, to_flashcards  # noqa: E402  — RED until emit.py exists
+from promptverge.emit import Card, to_flashcards  # noqa: E402,F401 — RED until emit.py exists; Card imported to verify export
 
 # ---------------------------------------------------------------------------
 # Sidecar loader (D7 — live-sidecar golden tests only)
