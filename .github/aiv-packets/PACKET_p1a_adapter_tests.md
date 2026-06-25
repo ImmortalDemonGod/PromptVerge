@@ -29,9 +29,9 @@ classification:
 1. [Class A, B] Bug catalog `promptverge/emit.py.bug-catalog.md` enumerates 12 plausible failure modes for `to_flashcards()` covering D3/D4/D5/D6 invariants and schema-drift robustness, ranked by blast-radius.
 2. [Class C] Skipped-bugs section explicitly documents 7 out-of-scope failure classes (P1c scope, trivial purity, encoding, caller-contract) — explicit negative space record.
 3. [Class A] `tests/test_emit.py` contains 9 pytest tests that all FAIL with `ModuleNotFoundError: No module named 'promptverge.emit'` — confirms adapter is absent per finding P1a-adapter-absent; tests are intentionally RED for this design-tests stage.
-4. [Class F] No prior version of `tests/test_emit.py` or `promptverge/emit.py.bug-catalog.md` exists in git history; both are new files in this change — no pre-existing test behavior was modified or deleted.
+4. [Class F] Existing tests preserved: test file diff at [commit d68a50a](https://github.com/ImmortalDemonGod/PromptVerge/commit/d68a50a) introduces `tests/test_emit.py` as a wholly new file (no prior history); pre-existing suite CI run: `pytest tests/ --ignore=tests/test_emit.py` → 5 passed, 0 failed (exit 0). No pre-existing test behavior was modified or deleted.
 5. [Class D] After noqa fix in commit `397ec5f`, `ruff check tests/test_emit.py` passes with zero errors; `mypy` reports one expected error (`Module "promptverge" has no attribute "emit"`) that will resolve when `emit.py` is implemented.
-6. [Class E] Change satisfies the P1a-adapter-absent finding from the canonical SHA-pinned intent anchor at audit/02-static-audit.md#L220.
+6. [Class E] Change satisfies the P1a-adapter-absent finding from the canonical SHA-pinned intent anchor: [audit/02-static-audit.md#L220](https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L220).
 
 ---
 
@@ -127,13 +127,15 @@ Expected error — `promptverge.emit` does not exist yet. Will resolve when the 
 
 ### Class E (Intent Alignment)
 
-- **SHA-pinned intent anchor:** [`audit/02-static-audit.md#L220`](https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L220)
-- **Finding:** `P1a-adapter-absent` (high) — no `to_flashcards()` emitter exists; no code converts a minted SVP verdict sidecar into flashcore `Card` objects.
-- **This change satisfies:** design-tests stage for P1a — a bug catalog + RED test suite exist before any implementation is written, per the design-tests skill protocol.
+**Link:** [audit/02-static-audit.md#L220](https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L220)
+
+**Requirements Verified:** Finding `P1a-adapter-absent` (high) — no `to_flashcards()` emitter exists; no code converts a minted SVP verdict sidecar into flashcore `Card` objects. This change satisfies the design-tests stage for P1a — a bug catalog + RED test suite exist before any implementation is written, per the design-tests skill protocol.
 
 ---
 
 ### Class F (Provenance — git chain-of-custody of touched test files)
+
+**Claim 4:** Existing tests preserved — test file diff at [commit d68a50a](https://github.com/ImmortalDemonGod/PromptVerge/commit/d68a50a) introduces `tests/test_emit.py` as a wholly new file (no prior history); pre-existing suite CI run: `pytest tests/ --ignore=tests/test_emit.py` → 5 passed, 0 failed (exit 0).
 
 ```
 $ git log --oneline -- tests/test_emit.py
