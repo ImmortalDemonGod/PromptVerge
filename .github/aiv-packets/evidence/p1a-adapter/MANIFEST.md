@@ -2,7 +2,7 @@
 
 Finding: P1a-adapter-absent  
 Baseline ref: origin/main @ 90741c0c5b6a6d5c824b26714e90f353084e6dae  
-HEAD ref: 6c204dea255f516449f063e2d6d49fed0ceea3f9  
+HEAD ref: 004d1f81ea0df4a2137a62227826d07a0458a331  
 Assessed: 2026-06-25  
 
 | Artifact | sha256 | Claim proved | Cited baseline ref | AIV class |
