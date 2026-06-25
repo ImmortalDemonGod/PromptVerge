@@ -203,7 +203,20 @@ skipped; this is an additive defensive refinement.
 
 ---
 
-### Class D (Static Analysis — lint / type / build)
+### Class D (Differential Evidence §6.5 + Static Analysis)
+
+**§6.5 Differential Evidence (baseline `a2b2311` → HEAD `e84d7d0`):**
+
+| Scenario | Baseline (`a2b2311`) | HEAD (`e84d7d0`) |
+|----------|---------------------|------------------|
+| Guard 1 — missing `"review"` key | `KeyError: 'review'` | PASS, 2 card(s) |
+| Guard 2 — non-dict comment entry | `AttributeError: 'str' object has no attribute 'get'` | PASS, 3 card(s) |
+| Guard 3 — suggestion missing `"comment"` | `KeyError: 'comment'` | PASS, 3 card(s) |
+| Full test suite (9 tests, nominal path) | 9/9 PASS | 9/9 PASS (no regression) |
+
+Behavioral differential is detailed in Class A. No nominal-path output changed; only previously-raising edge cases now return gracefully.
+
+**Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 ```
 $ ruff check promptverge/emit.py    (ruff 0.15.0 via PATH)
@@ -260,6 +273,8 @@ d597fb3  feat(emit): add Card TypedDict and to_flashcards() adapter
 `09e005c` is the most recent touch to `emit.py`, as expected. The commit
 that introduced the file (`d597fb3`) and the hardening commit (`09e005c`)
 form a complete, unbroken chain with no intervening mystery commits.
+
+**F-001 (cryptographic provenance):** SHA-256 manifests in Class B constitute the full F-001 record for this R1 adoption commit. No additional digital signature or attestation is required (R1 tier; pure in-memory adapter, no auth/payment/infra surface).
 
 ---
 

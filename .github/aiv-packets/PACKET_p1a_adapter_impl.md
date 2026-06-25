@@ -134,7 +134,19 @@ From `promptverge/emit.py.bug-catalog.md` (commit `ed27bd9`):
 
 ---
 
-### Class D (Static Analysis — lint / type / build)
+### Class D (Differential Evidence §6.5 + Static Analysis)
+
+**§6.5 Differential Evidence (baseline `85da9ed` → HEAD `d597fb3`):**
+
+| Metric | Baseline (`85da9ed`) | HEAD (`d597fb3`) |
+|--------|---------------------|------------------|
+| `promptverge/emit.py` exists | No (absent) | Yes (68 lines) |
+| `to_flashcards()` defined | No | Yes |
+| Emit test suite result | N/A — module absent | 9/9 PASS |
+| ruff on `emit.py` | N/A — file absent | All checks passed! |
+| mypy on `emit.py` | N/A — file absent | No issues found in 1 source file |
+
+**Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 **ruff (version 0.15.19, pinned in pyproject.toml):**
 ```
@@ -192,6 +204,8 @@ d68a50a test(design): RED tests for to_flashcards() P1a adapter
 Last touch: `397ec5f` (design-tests stage). This PR adds no further commits to the test file.
 
 **Pre-existing suite status:** The 5 tests that collect and run in `test_cli.py`/`test_completeness.py` pass 5/5. The 9 collection failures in `test_cli.py` and all collection failures in `test_e2e_flow.py`, `test_engineering_workflow_*.py`, `test_full_workflow.py`, `test_kg_direct.py`, `test_knowledge_workflow_units.py` are pre-existing `ModuleNotFoundError`s (missing `prefect`, `marvin` packages). Confirmed pre-existing by `git stash` isolation test: identical error count before and after applying this change.
+
+**F-001 (cryptographic provenance):** SHA-256 manifests below constitute the full F-001 record for this R1 change. No additional digital signature or attestation is required (R1 tier; no auth/payment/infra surface).
 
 **SHA-256 manifest for functional artifacts introduced by this change:**
 

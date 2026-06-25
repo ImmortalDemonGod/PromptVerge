@@ -107,7 +107,20 @@ promptverge/__init__.py  promptverge/__main__.py  promptverge/main.py  promptver
 
 ---
 
-### Class D (Static Analysis — lint / type / build)
+### Class D (Differential Evidence §6.5 + Static Analysis)
+
+**§6.5 Differential Evidence (baseline `043ddda` → HEAD `397ec5f`):**
+
+| Metric | Baseline (`043ddda`) | HEAD (`397ec5f`) |
+|--------|---------------------|------------------|
+| `tests/test_emit.py` exists | No (absent) | Yes (9 RED tests) |
+| `emit.py.bug-catalog.md` exists | No (absent) | Yes (12 bugs cataloged, 7 explicitly skipped) |
+| Emit test suite result | N/A — file absent | 9/9 FAIL (ModuleNotFoundError — **intentional RED** for design-tests stage) |
+| ruff on `tests/test_emit.py` | N/A — file absent | All checks passed! |
+
+Stage: design-tests; RED result is the intended deliverable — tests are written before the implementation module exists.
+
+**Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 **ruff (commit `397ec5f`, after noqa fix):**
 ```
@@ -147,6 +160,8 @@ ed27bd9 test(design): bug catalog for to_flashcards() P1a adapter
 ```
 
 Both files are NEW in this change (no prior history). No pre-existing test file was modified or deleted. The test suite's pre-existing files (`test_cli.py`, `test_completeness.py`, `test_e2e_flow.py`, etc.) are untouched — confirmed by `git diff 043ddda 397ec5f -- tests/ | grep "^diff" | grep -v test_emit`.
+
+**F-001 (cryptographic provenance):** SHA-256 manifests below constitute the full F-001 record for this R1 change. No additional digital signature or attestation is required (R1 tier; test/documentation artifacts only, no auth/payment/infra surface).
 
 **SHA-256 manifest for functional artifacts introduced by this change:**
 

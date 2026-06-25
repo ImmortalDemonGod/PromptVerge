@@ -176,7 +176,21 @@ this adoption commit touches none of them.
 
 ---
 
-### Class D (Static Analysis — lint / type / build)
+### Class D (Differential Evidence §6.5 + Static Analysis)
+
+**§6.5 Differential Evidence (baseline `09e005c` → HEAD `b01beae`):**
+
+| Metric | Baseline (`09e005c`) | HEAD (`b01beae`) |
+|--------|---------------------|------------------|
+| `ruff` pin in `pyproject.toml` | `ruff==25.12.0` (phantom — not on PyPI) | `ruff==0.15.19` (valid, resolves) |
+| `pip install -e .[dev]` on clean env | `ResolutionImpossible` error | Succeeds |
+| Emit test suite (9 tests) | 9/9 PASS | 9/9 PASS (no regression) |
+| `promptverge/emit.py` SHA-256 | `5e51fd7…` (unchanged) | `5e51fd7…` (byte-for-byte identical) |
+| `tests/test_emit.py` SHA-256 | `db41f12…` (unchanged) | `db41f12…` (byte-for-byte identical) |
+
+Only `pyproject.toml` changed; all functional artifacts are byte-for-byte identical across baseline and HEAD.
+
+**Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 ```
 $ ruff check promptverge/emit.py pyproject.toml    (ruff 0.15.0 via PATH)
@@ -243,6 +257,8 @@ d597fb3  feat(emit): add to_flashcards() pure verdict-to-Card adapter
 ```
 
 The adoption commit is the most recent touch to `pyproject.toml`, as expected.
+
+**F-001 (cryptographic provenance):** SHA-256 manifests in Class B constitute the full F-001 record for this R1 adoption commit. No additional digital signature or attestation is required (R1 tier; dep-pin correction only, no auth/payment/infra surface).
 
 ---
 
