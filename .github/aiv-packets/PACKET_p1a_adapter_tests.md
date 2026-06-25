@@ -49,7 +49,7 @@ classification:
 
 **Test collection failure — RED proof:**
 
-```
+```text
 $ python -m pytest tests/test_emit.py -v
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.12, pytest-9.0.3
@@ -83,14 +83,14 @@ No regression to pre-existing tests.
 ### Class C (Negative Evidence — what was searched for and NOT found)
 
 **Searched for `def to_flashcards` in `promptverge/`:**
-```
+```bash
 $ grep -r "def to_flashcards" promptverge/
 (no output — exit code 1)
 ```
 No Python implementation of `to_flashcards` exists anywhere in the `promptverge/` package. (The symbol name appears only in `promptverge/emit.py.bug-catalog.md`, a markdown documentation file, not in any `.py` file.)
 
 **Searched for `emit.py` in `promptverge/`:**
-```
+```bash
 $ ls promptverge/*.py
 promptverge/__init__.py  promptverge/__main__.py  promptverge/main.py  promptverge/prompts.py
 ```
@@ -123,13 +123,13 @@ Stage: design-tests; RED result is the intended deliverable — tests are writte
 **Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 **ruff (commit `397ec5f`, after noqa fix):**
-```
+```bash
 $ ruff check tests/test_emit.py
 All checks passed!
 ```
 
 **mypy:**
-```
+```bash
 $ mypy tests/test_emit.py
 tests/test_emit.py:15: error: Module "promptverge" has no attribute "emit"  [attr-defined]
 Found 1 error in 1 file (checked 1 source file)
@@ -150,7 +150,7 @@ Expected error — `promptverge.emit` does not exist yet. Will resolve when the 
 
 **Claim 4:** Existing tests preserved — test file diff at [commit d68a50a](https://github.com/ImmortalDemonGod/PromptVerge/commit/d68a50a) introduces `tests/test_emit.py` as a wholly new file (no prior history); pre-existing suite CI run: `pytest tests/ --ignore=tests/test_emit.py` → 5 passed, 0 failed (exit 0).
 
-```
+```bash
 $ git log --oneline -- tests/test_emit.py
 397ec5f fix(test): suppress F401 on Card import — symbol-export verification
 d68a50a test(design): RED tests for to_flashcards() P1a adapter
@@ -165,7 +165,7 @@ Both files are NEW in this change (no prior history). No pre-existing test file 
 
 **SHA-256 manifest for functional artifacts introduced by this change:**
 
-```
+```bash
 $ shasum -a 256 tests/test_emit.py promptverge/emit.py.bug-catalog.md
 db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
 f69fa4a92296670a376d198cc5258c341cb72ed1f3c996cf7b2b0468a96ee449  promptverge/emit.py.bug-catalog.md

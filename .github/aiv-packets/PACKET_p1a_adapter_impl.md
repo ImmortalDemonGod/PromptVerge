@@ -51,7 +51,7 @@ classification:
 
 **Primary suite — `tests/test_emit.py` (9 tests, all PASS):**
 
-```
+```text
 $ python -m pytest tests/test_emit.py -v
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
@@ -81,7 +81,7 @@ Notes:
 
 **G1 acceptance check (import clean):**
 
-```
+```bash
 $ python -c "from promptverge.emit import to_flashcards, Card"
 (exit 0 — no output)
 ```
@@ -102,21 +102,21 @@ $ python -c "from promptverge.emit import to_flashcards, Card"
 ### Class C (Negative Evidence — what was searched for and NOT found)
 
 **C1 — No `to_flashcards` implementation elsewhere:**
-```
+```bash
 $ grep -r "def to_flashcards" promptverge/ | grep -v emit.py
 (no output — exit code 1)
 ```
 Only `promptverge/emit.py` defines this symbol.
 
 **C2 — No `flashcore` or `duckdb` symbol in `emit.py`:**
-```
+```bash
 $ grep -E "flashcore|duckdb" promptverge/emit.py
 (no output — exit code 1)
 ```
 P1a/P1b boundary is clean. G11 acceptance criterion satisfied.
 
 **C3 — `emit` not exported from `__init__.py` (P1b wires it, not P1a):**
-```
+```bash
 $ grep "emit" promptverge/__init__.py
 (no output — exit code 1)
 ```
@@ -149,19 +149,19 @@ From `promptverge/emit.py.bug-catalog.md` (commit `ed27bd9`):
 **Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
 **ruff (version 0.15.19, pinned in pyproject.toml):**
-```
+```bash
 $ ruff check promptverge/emit.py
 All checks passed!
 ```
 
 **mypy:**
-```
+```bash
 $ mypy promptverge/emit.py
 Success: no issues found in 1 source file
 ```
 
 **G11 gate (no flashcore/duckdb):**
-```
+```bash
 $ grep -E "flashcore|duckdb" promptverge/emit.py
 (no output — exit code 1)
 ```
@@ -185,7 +185,7 @@ This change addresses that defect directly: `promptverge/emit.py` introduces `to
 
 `tests/test_emit.py` was introduced in commits `d68a50a` and `397ec5f` (design-tests stage, prior to this change). This PR's commit `d597fb3` does NOT touch `tests/test_emit.py`:
 
-```
+```bash
 $ git show --stat d597fb3
  .github/aiv-evidence/EVIDENCE_PROMPTVERGE_EMIT.md | 104 +++
  promptverge/emit.py                                |  95 +++
@@ -195,7 +195,7 @@ $ git show --stat d597fb3
 
 `tests/test_emit.py` is absent from the commit's diff — the test file is untouched. Chain-of-custody:
 
-```
+```bash
 $ git log --oneline -- tests/test_emit.py
 397ec5f fix(test): suppress F401 on Card import — symbol-export verification
 d68a50a test(design): RED tests for to_flashcards() P1a adapter
@@ -209,7 +209,7 @@ Last touch: `397ec5f` (design-tests stage). This PR adds no further commits to t
 
 **SHA-256 manifest for functional artifacts introduced by this change:**
 
-```
+```bash
 $ shasum -a 256 promptverge/emit.py pyproject.toml tests/test_emit.py
 5e51fd716c93145c7ea5df43b7f43fc20825ac13437f8795fecb8ba91eae7636  promptverge/emit.py
 d29ba20801ca7a8e2e84eb34343f05d38d4e417468f3deff50b7dda160e5b871  pyproject.toml
