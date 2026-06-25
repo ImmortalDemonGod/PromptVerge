@@ -1,46 +1,59 @@
-# AIV Packet — adopt-3c319a2
-**Change ID:** fix-p1c-draftflow-absent-adopt-3c319a2  
-**Packet type:** Out-of-band commit adoption  
-**Adopted commit:** `3c319a2` ("chore(pipeline): prove-it artifacts")  
-**Author:** Miguel Ingram  
-**Date:** 2026-06-25  
-**Baseline (3c319a2^):** `e6f94f4`  
-**Branch HEAD:** `87a18ac`  
-**Functional file adopted:** `tests/test_verdicts_workflow.py`  
+# AIV Verification Packet (v2.2)
+
+## Identification
+
+| Field | Value |
+|-------|-------|
+| **Repository** | github.com/ImmortalDemonGod/PromptVerge |
+| **Change ID** | fix-p1c-draftflow-absent-adopt-3c319a2 |
+| **Packet type** | Out-of-band commit adoption |
+| **Adopted commit** | `3c319a2` ("chore(pipeline): prove-it artifacts") |
+| **Commits** | `3c319a2` |
+| **Head SHA** | `87a18ac` |
+| **Base SHA** | `e6f94f4` |
+| **Created** | 2026-06-25T00:00:00Z |
+
+## Classification
+
+```yaml
+classification:
+  risk_tier: R1
+  sod_mode: S1
+  critical_surfaces: []
+  blast_radius: component
+  classification_rationale: >
+    R1: adopted commit adds a single test function
+    (test_watermark_persists_across_process_restart, +45 lines) to an
+    existing test file. No production code is modified; blast radius is
+    limited to test correctness. The commit was made out-of-band by the
+    operator (mid-drive, no prior AIV packet); this adoption packet
+    retroactively covers it without reverting or altering the change.
+    S1: Miguel Ingram (implementer/adopter) and ImmortalDemonGod
+    (H2 merge authority / verifier) are distinct natural-person identities.
+  classified_by: "Miguel Ingram"
+  classified_at: "2026-06-25T00:00:00Z"
+  verified_by: "ImmortalDemonGod"
+  verified_role: "H2 merge authority — inspects artifacts, approves merge"
+```
+
+## Claims
+
+1. `3c319a2` added `TestIntegrationRealSQLite::test_watermark_persists_across_process_restart` (+45 lines) to `tests/test_verdicts_workflow.py`; all other files in that commit are evidence/documentation artifacts already scoped to this finding.
+2. No existing tests were modified or deleted; the 20 pre-existing tests (from prior packets) remain GREEN at HEAD.
+3. The new test (21st) passes at HEAD `87a18ac`; it exercises real-file watermark idempotency across a simulated process restart — a new store object opened against the same SQLite file must not re-POST a bundle whose watermark was written in a prior run.
 
 ---
 
-## Purpose
+## Evidence References
 
-Commit `3c319a2` was an operator review-as-edit made out-of-band (mid-drive, no AIV packet).
-It added one functional test — `test_watermark_persists_across_process_restart` — plus
-supporting evidence artifacts to `.github/aiv-packets/evidence/fix-p1c-draftflow-absent/`.
-
-This packet adopts `3c319a2` into the evidence chain without reverting or altering the
-operator's change, and re-runs the exercised tests to confirm HEAD remains green.
+| # | Evidence File | Commit SHA | Classes |
+|---|---------------|------------|---------|
+| 1 | adopt_3c319a2_head_green.txt | `87a18ac` | A |
+| 2 | adopt_3c319a2_baseline_count.txt | `87a18ac` | A, F |
 
 ---
 
-## Summary of what 3c319a2 changed
-
-| File | Delta |
-|------|-------|
-| `tests/test_verdicts_workflow.py` | +45 lines — added `TestIntegrationRealSQLite.test_watermark_persists_across_process_restart` |
-| `.github/aiv-packets/evidence/fix-p1c-draftflow-absent/MANIFEST.md` | +40 lines (evidence index) |
-| `.../adversarial_probe_response.md` | +82 lines |
-| `.../aiv_packet_blocks.md` | +112 lines |
-| `.../baseline_red.txt` | +34 lines |
-| `.../class_c_negative.txt` | +18 lines |
-| `.../head_green.txt` | +77 lines |
-| `.../integration_sqlite.txt` | +23 lines |
-| `.../typecheck.txt` | +1 line |
-
-The only **functional** file is `tests/test_verdicts_workflow.py`; all other files are
-evidence/documentation artifacts already scoped to this finding.
-
----
-
-### Class A — Behavioral / Direct Evidence
+### Class A (Behavioral / Direct Evidence)
 
 **New test added by 3c319a2:**
 
@@ -98,17 +111,17 @@ Exit code: 0. No regression. The Prefect teardown log error (ValueError on close
 `prefect/logging/handlers.py`) is a framework-level teardown artifact; it appears in all
 prior runs and does not affect pytest's exit code.
 
-Full artifact: `.github/aiv-packets/evidence/fix-p1c-draftflow-absent/adopt_3c319a2_head_green.txt`  
+Full artifact: `.github/aiv-packets/evidence/fix-p1c-draftflow-absent/adopt_3c319a2_head_green.txt`
 Baseline inventory: `.github/aiv-packets/evidence/fix-p1c-draftflow-absent/adopt_3c319a2_baseline_count.txt`
 
 ---
 
-### Class B — Referential Evidence (SHA-pinned)
+### Class B (Referential Evidence)
 
 **Adopted commit diff (functional file only):**
 
-`git show 3c319a2 -- tests/test_verdicts_workflow.py`  
-Lines added: 393–437 of `tests/test_verdicts_workflow.py` at HEAD (`87a18ac`).  
+`git show 3c319a2 -- tests/test_verdicts_workflow.py`
+Lines added: 393–437 of `tests/test_verdicts_workflow.py` at HEAD (`87a18ac`).
 
 Key line anchors in HEAD (`87a18ac`):
 - `tests/test_verdicts_workflow.py:396` — `def test_watermark_persists_across_process_restart`
@@ -125,7 +138,7 @@ Canonical finding anchor (audit record):
 
 ---
 
-### Class C — Negative Evidence
+### Class C (Negative Evidence — what was searched for and NOT found)
 
 Searched for: any test added by `3c319a2` that exercises a code path **not** already covered
 by the existing 20-test suite.
@@ -144,7 +157,7 @@ by the existing 20-test suite.
 
 ---
 
-### Class D — Static Analysis
+### Class D (Static Analysis)
 
 ```
 python -m pytest --collect-only tests/test_verdicts_workflow.py 2>&1 | tail -3
@@ -164,10 +177,9 @@ mypy promptverge/flows/verdicts_workflow.py  # (from prior packet typecheck.txt:
 
 ---
 
-### Class E — Intent Alignment
+### Class E (Intent Alignment)
 
-Canonical finding: `audit/02-static-audit.md#L222` (SHA `7a176bd`):  
-`https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222`
+**Source:** https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222
 
 The finding requires: "advance a processed-verdicts watermark (re-run skips triaged verdicts)."
 
@@ -179,7 +191,7 @@ strengthening of the original intent — not a deviation.
 
 ---
 
-### Class F — Provenance (git chain-of-custody of touched test files)
+### Class F (Provenance — git chain-of-custody of touched test files)
 
 ```
 git log --oneline tests/test_verdicts_workflow.py
@@ -201,10 +213,30 @@ signed by the same author email as the branch's other functional commits.
 
 ---
 
-## Verdict
+## Verification Methodology
 
-Branch HEAD (`87a18ac`) is correct after adopting `3c319a2`:
-- All 21 tests PASS (exit 0).
-- The new test strengthens the watermark invariant required by the finding.
-- No test was removed, no production file was altered by `3c319a2`.
-- No fix-forward commit is required.
+**SoD mode: S1** — adopter and verifier are distinct natural-person identities.
+
+| Role | Identity | Action |
+|------|----------|--------|
+| Adopter | Miguel Ingram | Authored adoption packet, collected re-run evidence |
+| Verifier | ImmortalDemonGod (repo owner / H2 merge authority) | Inspects artifacts only; approves or rejects merge — does not touch implementation |
+
+**Zero-Touch Mandate:** Verifier inspects artifacts only.
+
+---
+
+## Known Limitations
+
+- Evidence references point to artifact files committed at HEAD `87a18ac`.
+  Use `git show 87a18ac:.github/aiv-packets/evidence/fix-p1c-draftflow-absent/<file>` to retrieve.
+- No GPG signing on commits in this repository; sha256 manifest provides content integrity.
+
+---
+
+## Summary
+
+Adoption packet for out-of-band commit `3c319a2`. The commit added one test function
+(`test_watermark_persists_across_process_restart`, +45 lines) to `tests/test_verdicts_workflow.py`.
+All 21 tests PASS at HEAD `87a18ac` (exit 0). No production file was altered. No fix-forward
+commit is required. The new test strengthens the watermark invariant required by finding P1c.
