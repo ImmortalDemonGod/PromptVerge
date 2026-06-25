@@ -89,11 +89,11 @@ identical across baseline and HEAD.
 
 **Test suite at HEAD (`b01beae`) — bound to post-004d1f8 state:**
 
-```
+```bash
 $ python -m pytest tests/test_emit.py -v
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
-rootdir: /Users/tomriddle1/PromptVerge-p1a-adapter
+rootdir: <redacted>
 configfile: pyproject.toml
 plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
 collecting ... collected 9 items
@@ -121,7 +121,7 @@ zero observable effect on the test suite.
 
 **PyPI resolution proof (the functional claim of 004d1f8):**
 
-```
+```bash
 $ pip index versions ruff
 ruff (0.15.19)
 Available versions: 0.15.19, 0.15.18, 0.15.17, 0.15.16, ...
@@ -192,7 +192,7 @@ Only `pyproject.toml` changed; all functional artifacts are byte-for-byte identi
 
 **Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
-```
+```bash
 $ ruff check promptverge/emit.py pyproject.toml    (ruff 0.15.0 via PATH)
 All checks passed!
 ```
@@ -201,7 +201,7 @@ All checks passed!
 lint it as Python. The `All checks passed!` result is from `emit.py`.
 `pyproject.toml` structural validity confirmed by direct TOML parse:
 
-```
+```bash
 $ python3 -c "
 import tomllib, pathlib
 data = tomllib.loads(pathlib.Path('pyproject.toml').read_text())
@@ -238,7 +238,7 @@ preserved.
 
 `tests/test_emit.py` provenance through 004d1f8:
 
-```
+```bash
 $ git log --oneline -- tests/test_emit.py
 397ec5f  design-tests: add tests for emit.py (p1a-adapter)
 d68a50a  test(emit): initial test scaffold
@@ -249,7 +249,7 @@ touched by the adoption commit. Chain-of-custody intact.
 
 `pyproject.toml` provenance (last touch relevant to this adoption):
 
-```
+```bash
 $ git log --oneline -3 -- pyproject.toml
 004d1f8  fix(deps): correct ruff pin from 25.12.0 to 0.15.19 (CRV-1)
 09e005c  fix(emit): harden schema-drift guards in suggestion extraction (CRV-1)

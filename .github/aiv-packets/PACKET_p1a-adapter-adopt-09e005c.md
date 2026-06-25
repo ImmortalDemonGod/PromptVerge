@@ -100,7 +100,7 @@ at HEAD. Intent alignment with the P1a finding is preserved (see Class E).
 
 Three edge cases exercised against the baseline module in-process:
 
-```
+```text
 Guard 1 — missing "review" key:
   BASELINE: missing review key -> KeyError: 'review'
 
@@ -113,7 +113,7 @@ Guard 3 — suggestion dict missing "comment" key:
 
 **HEAD behavior on the same inputs (emit.py at `e84d7d0`):**
 
-```
+```text
 Guard 1 — missing "review" key:
   HEAD: missing review key -> PASS, 2 card(s)
 
@@ -126,11 +126,11 @@ Guard 3 — missing comment key:
 
 **Full test suite at HEAD (`e84d7d0`):**
 
-```
+```bash
 $ python -m pytest tests/test_emit.py -v
 ============================= test session starts ==============================
 platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
-rootdir: /Users/tomriddle1/PromptVerge-p1a-adapter
+rootdir: <redacted>
 configfile: pyproject.toml
 plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
 collecting ... collected 9 items
@@ -218,7 +218,7 @@ Behavioral differential is detailed in Class A. No nominal-path output changed; 
 
 **Static Analysis (§6.2.1-adjacent, retained under this class for traceability):**
 
-```
+```bash
 $ ruff check promptverge/emit.py    (ruff 0.15.0 via PATH)
 All checks passed!
 ```
@@ -254,7 +254,7 @@ any nominal-path behaviour. Intent alignment is preserved and strengthened.
 
 `tests/test_emit.py` provenance — 09e005c does NOT appear in this log:
 
-```
+```bash
 $ git log --oneline -- tests/test_emit.py
 397ec5f  fix(test): suppress F401 on Card import — symbol-export verification
 d68a50a  test(design): RED tests for to_flashcards() P1a adapter
@@ -264,7 +264,7 @@ d68a50a  test(design): RED tests for to_flashcards() P1a adapter
 
 `promptverge/emit.py` provenance (all touches relevant to this adoption):
 
-```
+```bash
 $ git log --oneline -- promptverge/emit.py
 09e005c  fix(emit): harden schema-drift guards in suggestion extraction (CRV-1)
 d597fb3  feat(emit): add Card TypedDict and to_flashcards() adapter
