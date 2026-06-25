@@ -2,14 +2,17 @@
 
 Finding: P1a-adapter-absent  
 Baseline ref: origin/main @ 90741c0c5b6a6d5c824b26714e90f353084e6dae  
-HEAD ref: 31962bc447e11e5f64da09772061e2640872ae37  
+HEAD ref: 0524b1e5c38f9ac63d6bc605059c49790c23a12d  
 Assessed: 2026-06-25  
 
 <!-- Note: "Cited baseline ref" for head_green.txt is 6c204de (commit "docs(aiv): complete
      Class A-F evidence in p1a-adapter-impl packet") — the prove-it session captured the
-     artifact at that commit. Subsequent commits (5ac1b1c → 31962bc) are AIV/doc-only fixes
-     to evidence and packet files; no functional code changed after 09e005c/004d1f8, so the
-     test evidence remains valid for the current HEAD. -->
+     artifact at that commit. Subsequent commits (5ac1b1c → 31962bc → 0524b1e) are
+     AIV/doc-only fixes to evidence and packet files; no functional code changed after
+     09e005c/004d1f8, so the test evidence remains valid for the current HEAD.
+     HEAD ref is updated each revision to match the branch tip; a one-commit lag is
+     unavoidable for self-referential manifest commits (the HEAD ref cannot name the
+     commit that writes it). -->
 
 | Artifact | sha256 | Claim proved | Cited baseline ref | AIV class |
 |---|---|---|---|---|
