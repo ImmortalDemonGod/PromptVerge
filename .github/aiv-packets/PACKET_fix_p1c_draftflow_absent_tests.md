@@ -70,8 +70,9 @@ classification:
 
 ### Class E (Intent Alignment)
 
-**Canonical intent source (SHA-pinned):**  
-https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222
+**Link:** https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222
+
+**Requirements Verified:** P1c-draftflow-absent: design-tests stage must enumerate plausible failure modes for the absent verdicts flow (dict→Card conversion, clamping, kebab normalization, watermark, POST to tasks_api, ADR-0002 gate).
 
 The finding at L222 states: *"No `verdicts` flow drives the merged emitter end-to-end with the approval gate."* The required behaviors are: dict→Card conversion with front/back clamped ≤1024, repo-slug kebab normalization, processed-verdicts watermark, pending store + POST to tasks_api, and reconcile step writing to flash.db only on task `done` (ADR 0002).
 
@@ -83,9 +84,9 @@ This change (design-tests stage) delivers:
 
 ### Class F (Provenance — Git Chain of Custody)
 
-- No existing test files were modified: `git diff 7a176bd..HEAD -- tests/` shows only new files (`tests/verdicts_workflow.bug-catalog.md`, `tests/test_verdicts_flow.py`).
-- Existing 27 passing tests (from PRs P1a/P1b) confirmed green on final commit `f31c8ab`: **27 passed, 0 failed**.
-- This change introduces no bug-fix words in claim text; Class F provenance requirement does not apply per E010.
+**Claim 2:** No existing test files were modified: `git diff 7a176bd66d7427bd01167ba5f0ee7759dcae5db6..f31c8abd96560157b97001c67a9abecb29b131f5 -- tests/` shows only two new files added (`tests/verdicts_workflow.bug-catalog.md`, `tests/test_verdicts_flow.py`) with zero deletions or modifications to prior tests. Existing 27 passing tests (from PRs P1a/P1b) confirmed green on final commit `f31c8ab` (27 passed, 0 failed). Diff: https://github.com/ImmortalDemonGod/PromptVerge/compare/7a176bd66d7427bd01167ba5f0ee7759dcae5db6...f31c8abd96560157b97001c67a9abecb29b131f5
+
+**Justification:** Only new test files were added; no pre-existing test was modified, renamed, or deleted. All 27 pre-existing tests confirmed green via pytest on HEAD commit f31c8ab.
 
 ---
 
