@@ -91,13 +91,16 @@ All implementation ACs verified by execution:
 - Card `media`/`source_yaml_file` round-trip (out of scope for P1b; Emitter does not set these fields)
 - `MarshallingError → CardOperationError` path (raised by flashcore internally; Pydantic prevents constructing an invalid Card)
 
-### Class D (Static Analysis)
+### Class D (Differential)
 
-- `ruff check promptverge/emit.py` → exit 0, `All checks passed!`
-- `ruff check pyproject.toml` → N/A (TOML, not Python)
-- `python -m mypy promptverge/emit.py` → exit 0, `Success: no issues found in 1 source file`
-- Pre-existing `[empty-body]` errors in `flows/engineering_workflow.py` and `flows/knowledge_workflow.py` are not caused by this change — both files are in the UNTOUCHED list at plan §10; confirmed by `git diff bb12274..4084f69 -- promptverge/flows/` → 0 changes
-- No `TODO:` or placeholder text in `promptverge/emit.py` (verified by `grep -n TODO promptverge/emit.py` → 0 matches)
+**Before (base SHA `bb12274`):** `promptverge/emit.py` did not exist — `python -c "from promptverge.emit import write_cards_to_flashdb"` → `ModuleNotFoundError`; `grep -iE 'flashcore|duckdb' pyproject.toml` → 0 matches.
+
+**After (head SHA `4084f69`):**
+- **Public API surface added:** `write_cards_to_flashdb(cards, db_path=None)` importable from `promptverge.emit` (exit 0); module constants `_LOCK_RETRIES=3`, `_LOCK_SLEEP=0.5` exposed.
+- **Dependency surface added:** `pyproject.toml [project.dependencies]` gained `"flashcore @ file://../flashcore"` (line 19, commit `545cefb`) and `"duckdb>=1.0.0"` (line 20, commit `545cefb`) — 0 → 2 new runtime deps.
+- **Mypy config surface added:** `pyproject.toml` gained `[[tool.mypy.overrides]]` block (lines 44–53, commit `4084f69`) adding `flashcore.*`, `duckdb`, `spacy`, `zshot.*`, `jsonschema` to `ignore_missing_imports = true`.
+
+**Differential scope:** 2 files changed across 3 commits — `promptverge/emit.py` (new, 74 lines, commit `7a8dfaf`), `pyproject.toml` (2 dep lines added at `545cefb` + 10-line mypy block added at `4084f69`). Static analysis outcomes (ruff/mypy exit 0) are execution evidence recorded in Class A above.
 
 ### Class E (Intent Alignment)
 

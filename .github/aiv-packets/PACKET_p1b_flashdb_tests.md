@@ -77,12 +77,9 @@ All 13 tests (10 unit + 3 live-fire) confirmed RED before commit:
 - Card `media`/`source_yaml_file` round-trip (not set by SVP Emitter; out of scope for P1b)
 - `MarshallingError → CardOperationError` path (raised by flashcore internally; cannot construct invalid Card via Pydantic)
 
-### Class D (Static Analysis)
+### Class D (Differential)
 
-- `ruff check tests/test_emit.py` → errors reported by aiv (F401 on `write_cards_to_flashdb` import in test body used as existence check; intentional, not a correctness issue — the import IS the test)
-- `ruff check tests/test_emit_live.py` → ruff errors on same pattern
-- `mypy` reports 3 errors in 1 file; all mypy errors are about the absent `promptverge.emit` module (expected; mypy cannot analyze what doesn't exist)
-- Bug catalog (`emit.py.bug-catalog.md`) is Markdown; ruff/mypy do not apply
+N/A — test-only stage. This change adds only test files (`tests/test_emit.py`, `tests/test_emit_live.py`) and a failure-mode catalog (`promptverge/emit.py.bug-catalog.md`); no production module, no public API surface, and no dependency was added to `pyproject.toml` at this stage. The runtime/output surface of the `promptverge` package is unchanged at base SHA `b3451c9` — confirmed by `git diff b3451c9..8b30450 -- pyproject.toml promptverge/` → 0 lines changed in those paths. Static analysis outputs (expected ruff F401 and mypy errors due to the absent `promptverge.emit` module) are Class A execution evidence and appear in Class A above; they are not differential evidence.
 
 ### Class E (Intent Alignment)
 
