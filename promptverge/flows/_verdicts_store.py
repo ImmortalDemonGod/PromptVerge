@@ -62,14 +62,17 @@ class VerdictsPendingStore:
         return cur
 
     def is_submitted(self, origin_task: str, card_hash: Optional[str]) -> bool:
+        # Only rows with a real cultivation_task_id count as submitted;
+        # placeholder rows (task_id='') represent in-flight reservations that
+        # can be retried if the POST succeeded but the update never landed.
         if card_hash is None:
             cur = self._conn().execute(
-                "SELECT 1 FROM verdicts_pending WHERE origin_task=?",
+                "SELECT 1 FROM verdicts_pending WHERE origin_task=? AND cultivation_task_id != ''",
                 (origin_task,),
             )
         else:
             cur = self._conn().execute(
-                "SELECT 1 FROM verdicts_pending WHERE origin_task=? AND card_hash=?",
+                "SELECT 1 FROM verdicts_pending WHERE origin_task=? AND card_hash=? AND cultivation_task_id != ''",
                 (origin_task, card_hash),
             )
         return cur.fetchone() is not None
@@ -91,15 +94,37 @@ class VerdictsPendingStore:
             (origin_task, card_hash, cultivation_task_id, front, back, deck_name, tags_json),
         )
 
+    def update_cultivation_task_id(
+        self, origin_task: str, card_hash: str, cultivation_task_id: str
+    ) -> None:
+        """Promote a placeholder reservation (task_id='') to a real task ID.
+
+        Only updates rows where cultivation_task_id is still the placeholder,
+        so a concurrent duplicate call is safe (second update is a no-op).
+        """
+        self._exec(
+            """UPDATE verdicts_pending
+               SET cultivation_task_id = ?
+               WHERE origin_task = ? AND card_hash = ? AND cultivation_task_id = ''""",
+            (cultivation_task_id, origin_task, card_hash),
+        )
+
+    def delete_candidate(self, origin_task: str, card_hash: str) -> None:
+        """Remove a reservation row (e.g. when the POST to tasks_api failed)."""
+        self._exec(
+            "DELETE FROM verdicts_pending WHERE origin_task = ? AND card_hash = ?",
+            (origin_task, card_hash),
+        )
+
     def list_pending(self) -> list[dict]:
-        """Return all unreconciled rows with full card data."""
+        """Return all unreconciled rows that have a confirmed cultivation_task_id."""
         conn = self._conn()
         conn.row_factory = sqlite3.Row
         cur = conn.execute(
             """SELECT origin_task, card_hash, cultivation_task_id,
                       front, back, deck_name, tags_json, reconciled_at
                FROM verdicts_pending
-               WHERE reconciled_at IS NULL"""
+               WHERE reconciled_at IS NULL AND cultivation_task_id != ''"""
         )
         rows = [dict(row) for row in cur.fetchall()]
         conn.row_factory = None
