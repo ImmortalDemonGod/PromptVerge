@@ -136,7 +136,7 @@ From `promptverge/emit.py.bug-catalog.md` (commit `ed27bd9`):
 
 ### Class D (Static Analysis — lint / type / build)
 
-**ruff (version 25.12.0, pinned in pyproject.toml):**
+**ruff (version 0.15.19, pinned in pyproject.toml):**
 ```
 $ ruff check promptverge/emit.py
 All checks passed!
@@ -198,7 +198,7 @@ Last touch: `397ec5f` (design-tests stage). This PR adds no further commits to t
 ```
 $ shasum -a 256 promptverge/emit.py pyproject.toml tests/test_emit.py
 5e51fd716c93145c7ea5df43b7f43fc20825ac13437f8795fecb8ba91eae7636  promptverge/emit.py
-33248ff5de6dd800c4d6a217b865e168ced24fe97737180a9e33f7a11c6d07d8  pyproject.toml
+d29ba20801ca7a8e2e84eb34343f05d38d4e417468f3deff50b7dda160e5b871  pyproject.toml
 db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
 ```
 
@@ -236,6 +236,7 @@ Deliverables: `Card` TypedDict + `VerdictBundle` TypedDict + `to_flashcards()` a
   "risk_tier": "R1",
   "files_changed": ["promptverge/emit.py", "pyproject.toml"],
   "crv_fix_emit_schema_drift": "harden suggestion extraction: isinstance filter + .get('comment','') guard",
+  "crv_fix_ruff_pin": "corrected ruff==25.12.0 (non-existent) to ruff==0.15.19 (installed, on PyPI)",
   "test_result": "GREEN",
   "tests_passed": 9,
   "tests_failed": 0,

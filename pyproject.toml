@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-mock", "ruff==25.12.0", "types-jsonschema", "snoop", "pytest-cov"]
+dev = ["pytest", "pytest-mock", "ruff==0.15.19", "types-jsonschema", "snoop", "pytest-cov"]
 
 [project.scripts]
 promptverge = "promptverge.main:app"
