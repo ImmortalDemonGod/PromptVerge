@@ -2,13 +2,19 @@
 
 Finding: P1a-adapter-absent  
 Baseline ref: origin/main @ 90741c0c5b6a6d5c824b26714e90f353084e6dae  
-HEAD ref: 5ac1b1ce19df0965b9da9856a99fcff0a08450b9  
+HEAD ref: 31962bc447e11e5f64da09772061e2640872ae37  
 Assessed: 2026-06-25  
+
+<!-- Note: "Cited baseline ref" for head_green.txt is 6c204de (commit "docs(aiv): complete
+     Class A-F evidence in p1a-adapter-impl packet") — the prove-it session captured the
+     artifact at that commit. Subsequent commits (5ac1b1c → 31962bc) are AIV/doc-only fixes
+     to evidence and packet files; no functional code changed after 09e005c/004d1f8, so the
+     test evidence remains valid for the current HEAD. -->
 
 | Artifact | sha256 | Claim proved | Cited baseline ref | AIV class |
 |---|---|---|---|---|
 | `baseline_red.txt` | `d312229f889d060b3850cd42eb2c90d00f5dd58dc1b21127ef532d6e75313ad2` | to_flashcards symbol absent on baseline → ImportError (defect confirmed); ruling-out evidence eliminates broken-install false-positive | 90741c0c…6dae | A + D |
-| `head_green.txt` | `0bf1c26b5ea710671840df472da2b15c65c23a7ee49bf23627c0727a08ff5156` | 9/9 tests PASS at HEAD; schema assertions (deck, svp-verdict, origin_task, non-empty front/back) verified against real implementation | 6c204dea…3f9 | A + D |
+| `head_green.txt` | `0bf1c26b5ea710671840df472da2b15c65c23a7ee49bf23627c0727a08ff5156` | 9/9 tests PASS at HEAD; schema assertions (deck, svp-verdict, origin_task, non-empty front/back) verified against real implementation | 6c204de (prove-it capture commit) | A + D |
 
 ## Independent assessor verdict
 
