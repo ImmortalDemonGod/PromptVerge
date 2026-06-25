@@ -16,7 +16,7 @@
 ```yaml
 classification:
   risk_tier: R2
-  sod_mode: S0
+  sod_mode: S1
   critical_surfaces:
     - SQLite data-access substrate (_verdicts_store.py)
     - HTTP boundary (POST /api/v1/tasks, GET /api/v1/tasks)
@@ -27,8 +27,13 @@ classification:
     mark_reconciled). Per plan §0, substrate creation overrides the commit-count
     threshold for R-tier. verdicts_workflow.py adds a runtime HTTP boundary
     (POST and GET to tasks_api). Both surfaces require the full R2 evidence set.
+    S1 applies: implementer (Miguel Ingram) and verifier (ImmortalDemonGod,
+    repo owner / H2 merge authority) are distinct natural-person identities.
+    The verifier inspects artifacts only and does not touch the implementation.
   classified_by: "Miguel Ingram"
   classified_at: "2026-06-25T18:55:00Z"
+  verified_by: "ImmortalDemonGod"
+  verified_role: "H2 merge authority — inspects artifacts, approves merge"
 ```
 
 ## Claims
@@ -144,6 +149,13 @@ Existing tests preserved: the 8 pre-existing failures (`marvin` not installed) e
 ---
 
 ## Verification Methodology
+
+**SoD mode: S1** — implementer and verifier are distinct natural-person identities.
+
+| Role | Identity | Action |
+|------|----------|--------|
+| Implementer | Miguel Ingram | Authored code, collected evidence via `aiv commit`, generated packet via `aiv close` |
+| Verifier | ImmortalDemonGod (repo owner / H2 merge authority) | Inspects artifacts only; approves or rejects merge — does not touch implementation |
 
 **Zero-Touch Mandate:** Verifier inspects artifacts only.
 Evidence was collected by `aiv commit` during the change lifecycle.
