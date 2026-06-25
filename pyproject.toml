@@ -45,7 +45,13 @@ explicit_package_bases = true
 [[tool.mypy.overrides]]
 module = [
     "marvin.*",
-    "prefect.*"
+    "prefect.*",
+    "flashcore.*",
+    "duckdb",
+    "spacy",
+    "zshot",
+    "zshot.*",
+    "jsonschema"
 ]
 ignore_missing_imports = true
 
