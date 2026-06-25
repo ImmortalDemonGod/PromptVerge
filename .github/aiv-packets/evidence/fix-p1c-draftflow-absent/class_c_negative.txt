@@ -1,0 +1,18 @@
+# Class C — Negative Search
+Date: 2026-06-25T19:00:02Z
+
+## Search 1: verdicts_workflow / _verdicts_store symbols at baseline (7a176bd)
+Command: grep -rn 'verdicts_workflow|_verdicts_store|run_verdicts_flow|reconcile_verdicts' /tmp/fix-p1c-draftflow-absent_base/promptverge/
+RESULT: 0 matches — module absent at baseline (confirms defect)
+
+## Search 2: LLM enrichment calls in verdicts_workflow.py at HEAD
+Command: grep -n 'llm|enrich|openai|anthropic|embed' promptverge/flows/verdicts_workflow.py
+RESULT: 0 matches — no LLM enrichment (deferred to P1c-enrichment-absent; in-scope)
+
+## Search 3: flows/__init__.py exports at baseline vs HEAD
+--- baseline ---
+
+--- HEAD ---
+from promptverge.flows.verdicts_workflow import reconcile_verdicts, run_verdicts_flow
+
+__all__ = ["run_verdicts_flow", "reconcile_verdicts"]

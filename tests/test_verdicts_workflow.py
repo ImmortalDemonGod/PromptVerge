@@ -393,6 +393,51 @@ class TestIntegrationRealSQLite:
         assert row is not None
         assert row[0] is not None, "reconciled_at must be non-null after mark_reconciled"
 
+    def test_watermark_persists_across_process_restart(self, tmp_path):
+        """Watermark on a real SQLite file prevents duplicate POSTs after restart.
+
+        Run 1: run_verdicts_flow submits a bundle → POST called once, row written.
+        Store closed (del). Run 2: a new VerdictsPendingStore opens the same file;
+        run_verdicts_flow with the same bundle must detect the watermark and skip POST.
+        Total POST calls must equal run-1 count — no increment on run 2.
+
+        This is the real-file equivalent of TestWatermarkIdempotent.test_watermark_idempotent.
+        """
+        db_file = str(tmp_path / "wm_restart.db")
+        bundle = {
+            "comparison": {"ai": {"approach_match": "different",
+                                  "rationale": "Watermark persistence test."}},
+            "review": {"comments": []},
+            "session": {},
+            "repo": "org/wm-repo",
+            "pr_number": 42,
+        }
+
+        post_calls = []
+
+        def post_fake(payload, base_url="http://localhost:8000"):
+            post_calls.append(payload)
+            return {"id": f"wm-task-{len(post_calls)}", "status": "pending"}
+
+        with patch("promptverge.flows.verdicts_workflow.post_pending_task",
+                   side_effect=post_fake), \
+             patch("promptverge.flows.verdicts_workflow.write_cards_to_flashdb"):
+            run_verdicts_flow([bundle], db_path=db_file)
+
+        first_run_count = len(post_calls)
+        assert first_run_count >= 1, "First run must POST at least one task"
+
+        # Simulate process restart: open a fresh store from the same file
+        with patch("promptverge.flows.verdicts_workflow.post_pending_task",
+                   side_effect=post_fake), \
+             patch("promptverge.flows.verdicts_workflow.write_cards_to_flashdb"):
+            run_verdicts_flow([bundle], db_path=db_file)
+
+        assert len(post_calls) == first_run_count, (
+            f"Second run (simulated restart) must not POST again; "
+            f"first={first_run_count}, total after second={len(post_calls)}"
+        )
+
 
 # ---------------------------------------------------------------------------
 # Anti-regression — existing flows must still import  [10]

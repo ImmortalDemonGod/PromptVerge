@@ -1,0 +1,77 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/tomriddle1/PromptVerge-fix-p1c-draftflow-absent
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 29 items
+
+tests/test_verdicts_flow.py::test_module_importable_guards_against_b1_flow_absent PASSED [  3%]
+tests/test_verdicts_flow.py::test_convert_clamps_front_to_1024_guards_against_b2_overflow PASSED [  6%]
+tests/test_verdicts_flow.py::test_convert_clamps_back_to_1024_guards_against_b2_overflow PASSED [ 10%]
+tests/test_verdicts_flow.py::test_convert_normalizes_underscore_repo_slug_to_kebab_guards_against_b3 PASSED [ 13%]
+tests/test_verdicts_flow.py::test_watermark_skips_already_seen_verdict_guards_against_b4 PASSED [ 17%]
+tests/test_verdicts_flow.py::test_post_pending_task_called_per_candidate_guards_against_b5 PASSED [ 20%]
+tests/test_verdicts_flow.py::test_reconcile_does_not_write_pending_task_guards_against_b6 PASSED [ 24%]
+tests/test_verdicts_flow.py::test_reconcile_writes_when_task_done_guards_against_b6 PASSED [ 27%]
+tests/test_verdicts_workflow.py::TestClampFrontBack::test_clamp_front_back PASSED [ 31%]
+tests/test_verdicts_workflow.py::TestClampFrontBack::test_clamp_boundary_exact PASSED [ 34%]
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_kebab_normalization_underscore PASSED [ 37%]
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_kebab_normalization_org_slash_repo PASSED [ 41%]
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_deck_mapping PASSED [ 44%]
+tests/test_verdicts_workflow.py::TestWatermarkIdempotent::test_watermark_idempotent PASSED [ 48%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_done_calls_write PASSED [ 51%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[pending] PASSED [ 55%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[in-progress] PASSED [ 58%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[blocked] PASSED [ 62%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[deferred] PASSED [ 65%]
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_path_conditional PASSED [ 68%]
+tests/test_verdicts_workflow.py::TestPartialFailureSkips::test_partial_failure_skips PASSED [ 72%]
+tests/test_verdicts_workflow.py::TestStatusLiteralHyphen::test_status_literal_in_post_body PASSED [ 75%]
+tests/test_verdicts_workflow.py::TestStatusLiteralHyphen::test_reconcile_uses_done_exact_string PASSED [ 79%]
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_pending_store_persists_across_restart PASSED [ 82%]
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_run_verdicts_flow_store_populated PASSED [ 86%]
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_reconcile_writes_to_real_sqlite PASSED [ 89%]
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_watermark_persists_across_process_restart PASSED [ 93%]
+tests/test_verdicts_workflow.py::test_anti_regression_flows_init_imports PASSED [ 96%]
+tests/test_verdicts_workflow.py::test_anti_regression_verdicts_store_import PASSED [100%]
+
+============================= 29 passed in 16.69s ==============================
+--- Logging error ---
+Traceback (most recent call last):
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/logging/handlers.py", line 389, in emit
+    self.console.print(message, soft_wrap=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 1678, in print
+    with self:
+         ^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 864, in __exit__
+    self._exit_buffer()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 822, in _exit_buffer
+    self._check_buffer()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 2019, in _check_buffer
+    self._write_buffer()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 2088, in _write_buffer
+    self.file.write(text)
+    ~~~~~~~~~~~~~~~^^^^^^
+ValueError: I/O operation on closed file.
+Call stack:
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/server/api/server.py", line 1215, in stop
+    subprocess_server_logger.info(
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1520, in info
+    self._log(INFO, msg, args, **kwargs)
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1665, in _log
+    self.handle(record)
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1681, in handle
+    self.callHandlers(record)
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1737, in callHandlers
+    hdlr.handle(record)
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1027, in handle
+    self.emit(record)
+  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/logging/handlers.py", line 395, in emit
+    self.handleError(record)
+Message: 'Stopping temporary server on http://127.0.0.1:8014'
+Arguments: ()
