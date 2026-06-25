@@ -207,6 +207,8 @@ preserved.
 
 ### Class F (Provenance — git chain-of-custody of touched test files)
 
+**Claim 7:** `tests/test_emit.py` git provenance chain intact and unchanged through this commit — zero-byte diff confirms file untouched by 004d1f8.
+
 `tests/test_emit.py` provenance through 004d1f8:
 
 ```

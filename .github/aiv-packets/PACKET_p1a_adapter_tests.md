@@ -75,7 +75,7 @@ No regression to pre-existing tests.
 **Scope inventory:**
 
 - [`promptverge/emit.py.bug-catalog.md#L1-L168`](https://github.com/ImmortalDemonGod/PromptVerge/blob/ed27bd9b8e3e8c2f2a9d8e751182c69b9a4ed025/promptverge/emit.py.bug-catalog.md#L1-L168) — bug catalog (commit `ed27bd9`)
-- [`tests/test_emit.py#L1-L336`](https://github.com/ImmortalDemonGod/PromptVerge/blob/397ec5f0de5b0cf6e4d6d7bbd9abd2d4d67e7c6a/tests/test_emit.py#L1-L336) — RED test suite (commit `397ec5f`)
+- [`tests/test_emit.py#L1-L336`](https://github.com/ImmortalDemonGod/PromptVerge/blob/397ec5f4412dd0cfee28a617d738966b94cb4789/tests/test_emit.py#L1-L336) — RED test suite (commit `397ec5f`)
 - [`audit/02-static-audit.md#L220`](https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L220) — intent anchor (SHA `90741c0`)
 
 ---
