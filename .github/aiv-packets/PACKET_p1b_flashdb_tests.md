@@ -96,6 +96,29 @@ All 13 tests (10 unit + 3 live-fire) confirmed RED before commit:
 
 ---
 
+## Machine-checkable data
+
+```json
+{
+  "change_id": "p1b-flashdb-tests",
+  "risk_tier": "R1",
+  "head_sha": "8b30450",
+  "base_sha": "b3451c9",
+  "intent_sha": "90741c0c5b6a6d5c824b26714e90f353084e6dae",
+  "intent_url": "https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L221",
+  "acceptance_criteria": {
+    "AC1_bug_catalog_exists": "PASS — promptverge/emit.py.bug-catalog.md added at cd53655 with 9 failure scenarios (B1–B9)",
+    "AC2_unit_tests_red": "PASS — 10/10 tests in tests/test_emit.py are RED (ModuleNotFoundError: No module named 'promptverge.emit')",
+    "AC3_live_fire_tests_red": "PASS — 3/3 tests in tests/test_emit_live.py are RED (same root cause)",
+    "AC4_no_existing_tests_modified": "PASS — git diff b3451c9..8b30450 -- tests/ adds only test_emit.py and test_emit_live.py; no pre-existing file changed",
+    "AC5_preexisting_suite_green": "PASS — 5 pre-existing tests continue to pass unaffected",
+    "AC6_no_kernel_endpoint": "PASS — grep for /api/v1/cards and kernel.*create in new test files returns 0 matches",
+    "AC7_idempotency_test_present": "PASS — test_idempotent_upsert_same_uuids_no_duplicate_rows present in test_emit_live.py (catalog-B8)",
+    "AC8_fsrs_preservation_test_present": "PASS — test_fsrs_state_preserved_on_reupsert present in test_emit_live.py (catalog-B9)"
+  }
+}
+```
+
 ## Verification Methodology
 
 **Zero-Touch Mandate:** Verifier inspects artifacts only.
