@@ -1,10 +1,13 @@
 import runpy
 import sys
+import uuid
+from datetime import date, datetime, timezone
 from jsonschema import ValidationError
 
 import pytest
 from pydantic import BaseModel
 
+from promptverge.schemas.documents import CodeAudit, CodeAuditFinding, SeverityOverview
 from promptverge.schemas.validator import validate_document
 
 
@@ -62,3 +65,49 @@ def test_main_import_does_not_run_app(mocker):
     import promptverge.__main__  # noqa: F401
 
     mock_app.assert_not_called()
+
+
+def test_validator_success_real_document():
+    """validate_document returns True for a valid CodeAudit with real UUID and datetime fields."""
+    doc = CodeAudit(
+        doc_type="code_audit",
+        doc_version="2.0.0",
+        content_version="1.0",
+        target_repo="test/repo",
+        source_commit_sha="a" * 40,
+        date=date(2026, 1, 1),
+        severity_overview=SeverityOverview(critical=0, high=0, medium=0, low=1),
+        findings=[
+            CodeAuditFinding(
+                file=["f.py"],
+                category="logic",
+                severity="low",
+                finding="A finding long enough.",
+            )
+        ],
+    )
+    assert validate_document(doc) is True
+
+
+def test_validator_failure_tampered_real_document():
+    """validate_document returns False when source_commit_sha violates ^[0-9a-f]{40}$."""
+    tampered = CodeAudit.model_construct(
+        doc_type="code_audit",
+        doc_version="2.0.0",
+        doc_id=uuid.uuid4(),
+        timestamp_utc=datetime.now(timezone.utc),
+        content_version="1.0",
+        target_repo="test/repo",
+        source_commit_sha="NOT_VALID_SHA",
+        date=date(2026, 1, 1),
+        severity_overview=SeverityOverview(critical=0, high=0, medium=0, low=1),
+        findings=[
+            CodeAuditFinding(
+                file=["f.py"],
+                category="logic",
+                severity="low",
+                finding="A finding long enough.",
+            )
+        ],
+    )
+    assert validate_document(tampered) is False

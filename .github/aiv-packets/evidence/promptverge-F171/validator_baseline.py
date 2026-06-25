@@ -19,7 +19,7 @@ def validate_document(doc_object: BaseModel) -> bool:
         # The .model_json_schema() method generates the JSON schema for the model
         schema = doc_object.model_json_schema()
         # The .model_dump() method creates a dictionary representation of the object
-        instance = doc_object.model_dump(mode='json')
+        instance = doc_object.model_dump()
         validate(instance=instance, schema=schema)
         return True
     except ValidationError:

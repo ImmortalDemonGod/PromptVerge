@@ -1,0 +1,4 @@
+22c22
+<         instance = doc_object.model_dump()
+---
+>         instance = doc_object.model_dump(mode='json')
