@@ -1,0 +1,70 @@
+## Adoption Evidence — 09e005c schema-drift guards
+## Baseline: a2b2311 (09e005c^)   HEAD: e84d7d0
+
+=== BASELINE BEHAVIOR (emit.py at a2b2311) ===
+
+Three edge cases that 09e005c addresses, run against the baseline module:
+
+  Guard 1 — missing "review" key in bundle:
+    BASELINE: missing review key -> KeyError: 'review'
+
+  Guard 2 — non-dict entry in comments list:
+    BASELINE: non-dict comment entry -> AttributeError: 'str' object has no attribute 'get'
+
+  Guard 3 — suggestion dict missing "comment" key:
+    BASELINE: missing comment key in suggestion -> KeyError: 'comment'
+
+(Run: python -c "import importlib.util; spec = importlib.util.spec_from_file_location('emit_baseline', '/tmp/emit_baseline.py'); ...")
+
+
+=== HEAD BEHAVIOR (emit.py at e84d7d0) ===
+
+Same three edge cases run against HEAD module:
+
+  Guard 1 — missing "review" key:
+    HEAD: missing review key -> PASS, 2 card(s)
+
+  Guard 2 — non-dict comment entry:
+    HEAD: non-dict comment entry -> PASS, 3 card(s)
+
+  Guard 3 — missing comment key:
+    HEAD: missing comment key -> PASS, 3 card(s)
+
+
+=== FULL TEST SUITE AT HEAD (e84d7d0) ===
+
+$ python -m pytest tests/test_emit.py -v
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/tomriddle1/PromptVerge-p1a-adapter
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 9 items
+
+tests/test_emit.py::test_concept_card_from_different_verdict PASSED      [ 11%]
+tests/test_emit.py::test_re_derivation_card_from_similar_verdict PASSED  [ 22%]
+tests/test_emit.py::test_review_lesson_card_from_suggestion PASSED       [ 33%]
+tests/test_emit.py::test_empty_rationale_produces_no_concept_card PASSED [ 44%]
+tests/test_emit.py::test_card_type_tags PASSED                           [ 55%]
+tests/test_emit.py::test_missing_ai_key_returns_empty_not_raises PASSED  [ 66%]
+tests/test_emit.py::test_missing_comments_key_returns_list_not_raises PASSED [ 77%]
+tests/test_emit.py::test_golden_structural_pr38 PASSED                   [ 88%]
+tests/test_emit.py::test_golden_structural_pr39 PASSED                   [100%]
+
+============================== 9 passed in 0.02s ===============================
+
+Result: 9/9 PASS — no regression introduced.
+
+
+=== STATIC ANALYSIS AT HEAD ===
+
+$ ruff check promptverge/emit.py
+All checks passed!
+
+
+=== SHA-256 AT HEAD (e84d7d0) ===
+
+5e51fd716c93145c7ea5df43b7f43fc20825ac13437f8795fecb8ba91eae7636  promptverge/emit.py
+db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
+d29ba20801ca7a8e2e84eb34343f05d38d4e417468f3deff50b7dda160e5b871  pyproject.toml
