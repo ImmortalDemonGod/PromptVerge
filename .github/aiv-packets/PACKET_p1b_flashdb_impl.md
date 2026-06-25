@@ -81,7 +81,7 @@ All implementation ACs verified by execution:
 **What was searched for and NOT found:**
 
 - `grep -En '/api/v1/cards|kernel.*create|POST.*cards' promptverge/emit.py` → **0 matches** — kernel HTTP endpoint not referenced (AC3)
-- `grep -rn 'upsert\|INSERT\|UPDATE' promptverge/emit.py` → 0 matches — no SQL reimplemented; all DB writes delegate to `FlashcardDatabase.upsert_cards_batch()` (plan §11 constraint honored)
+- `grep -En 'INSERT INTO|ON CONFLICT|UPDATE.*SET' promptverge/emit.py` → 0 matches — no raw SQL reimplemented; all DB writes delegate to `FlashcardDatabase.upsert_cards_batch()` (plan §11 constraint honored). Note: the broader pattern `upsert|INSERT|UPDATE` returns 3 matches (lines 4, 52, 66) — all are textual references to the method name `upsert_cards_batch()`, not SQL statements; the raw-SQL grep is the correct probe.
 - `grep -rn 'duckdb.connect\|duckdb.DuckDB' promptverge/emit.py` → 0 matches — no direct DuckDB connection management; all lifecycle handled by `FlashcardDatabase` context manager
 - `grep -i 'FLASHCORE_DB' promptverge/emit.py` → 0 matches — env-var naming uses `FLASH_DB_PATH` (D3), no collision with flashcore's own `FLASHCORE_DB`
 

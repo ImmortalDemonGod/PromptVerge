@@ -36,9 +36,9 @@ classification:
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`b3451c9`](https://github.com/ImmortalDemonGod/PromptVerge/tree/b3451c9a53b1805b9a441fb4bd588c42e4d79d17))
+**Scope Inventory** (SHA: [`cd53655`](https://github.com/ImmortalDemonGod/PromptVerge/tree/cd5365591eed754c0a8438996c69160039908d3c))
 
-- [`promptverge/emit.py.bug-catalog.md#L1-L280`](https://github.com/ImmortalDemonGod/PromptVerge/blob/b3451c9a53b1805b9a441fb4bd588c42e4d79d17/promptverge/emit.py.bug-catalog.md#L1-L280)
+- [`promptverge/emit.py.bug-catalog.md#L1-L280`](https://github.com/ImmortalDemonGod/PromptVerge/blob/cd5365591eed754c0a8438996c69160039908d3c/promptverge/emit.py.bug-catalog.md#L1-L280)
 
 ### Class A (Execution Evidence)
 
