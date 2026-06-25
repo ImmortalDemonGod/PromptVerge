@@ -1,0 +1,45 @@
+=== D1 LIVE-FIRE: POST /api/v1/tasks via post_pending_task() ===
+Timestamp: 2026-06-25T21:04:12.428715Z
+HEAD SHA: 3c319a2e9e1300926c893768f6a407535bc25877
+Base SHA: 7a176bd66d7427bd01167ba5f0ee7759dcae5db6
+Target: http://127.0.0.1:8000/api/v1/tasks
+Function: promptverge.flows.verdicts_workflow.post_pending_task()
+
+Payload sent:
+{
+  "title": "AIV-P1c-D1-live-fire: verdicts flow POST test",
+  "status": "pending",
+  "priority": "medium",
+  "labels": ["aiv-evidence", "p1c-draftflow-absent"],
+  "context_link": null,
+  "notes": "Behavioral live-fire evidence for P1c prove-it. Self-cleaning."
+}
+
+Server response (HTTP 201):
+{
+  "id": "68e844ec-97e7-45c0-a027-127c7d0f2a07",
+  "title": "AIV-P1c-D1-live-fire: verdicts flow POST test",
+  "status": "pending",
+  "priority": "medium",
+  "labels": ["aiv-evidence", "p1c-draftflow-absent"],
+  "recommended_block": null,
+  "estimated_effort": null,
+  "context_link": null,
+  "notes": "Behavioral live-fire evidence for P1c prove-it. Self-cleaning.",
+  "created_at": "2026-06-25T21:04:12.441001+00:00",
+  "updated_at": "2026-06-25T21:04:12.441001+00:00"
+}
+
+Assertions:
+  ASSERT PASS: response.status == 'pending'  ✓
+  ASSERT PASS: response.id = '68e844ec-97e7-45c0-a027-127c7d0f2a07' (non-empty UUID)  ✓
+
+Self-clean PATCH /api/v1/tasks/68e844ec-97e7-45c0-a027-127c7d0f2a07/status:
+  Response status: 'done'  — HTTP 200
+  ASSERT PASS: cleanup task status == 'done'  ✓
+
+=== D1 LIVE-FIRE RESULT: PASS ===
+  - post_pending_task() called the REAL cultivation-os HTTP endpoint (not mocked)
+  - Server returned HTTP 201 with status='pending'
+  - Task ID '68e844ec-97e7-45c0-a027-127c7d0f2a07' created and self-cleaned (PATCHed to 'done')
+  - No DELETE endpoint available (confirmed by finding); PATCH /status used for cleanup

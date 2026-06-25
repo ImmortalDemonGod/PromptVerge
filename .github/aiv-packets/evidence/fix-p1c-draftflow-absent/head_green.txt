@@ -36,42 +36,4 @@ tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_watermark_persi
 tests/test_verdicts_workflow.py::test_anti_regression_flows_init_imports PASSED [ 96%]
 tests/test_verdicts_workflow.py::test_anti_regression_verdicts_store_import PASSED [100%]
 
-============================= 29 passed in 16.69s ==============================
---- Logging error ---
-Traceback (most recent call last):
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/logging/handlers.py", line 389, in emit
-    self.console.print(message, soft_wrap=True)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 1678, in print
-    with self:
-         ^^^^
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 864, in __exit__
-    self._exit_buffer()
-    ~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 822, in _exit_buffer
-    self._check_buffer()
-    ~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 2019, in _check_buffer
-    self._write_buffer()
-    ~~~~~~~~~~~~~~~~~~^^
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/rich/console.py", line 2088, in _write_buffer
-    self.file.write(text)
-    ~~~~~~~~~~~~~~~^^^^^^
-ValueError: I/O operation on closed file.
-Call stack:
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/server/api/server.py", line 1215, in stop
-    subprocess_server_logger.info(
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1520, in info
-    self._log(INFO, msg, args, **kwargs)
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1665, in _log
-    self.handle(record)
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1681, in handle
-    self.callHandlers(record)
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1737, in callHandlers
-    hdlr.handle(record)
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/logging/__init__.py", line 1027, in handle
-    self.emit(record)
-  File "/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/site-packages/prefect/logging/handlers.py", line 395, in emit
-    self.handleError(record)
-Message: 'Stopping temporary server on http://127.0.0.1:8014'
-Arguments: ()
+============================= 29 passed in 21.16s ==============================
