@@ -1,7 +1,20 @@
+import os
+
 import pytest
 from datetime import date
 
 from promptverge.schemas import documents as schemas
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _isolate_verdicts_pending_db(tmp_path_factory):
+    """Redirect VERDICTS_PENDING_DB to a per-session temp file so tests never share
+    watermark state with each other or with developer machines."""
+    tmp = tmp_path_factory.mktemp("verdicts_db_session")
+    db_path = str(tmp / "verdicts_pending.db")
+    os.environ["VERDICTS_PENDING_DB"] = db_path
+    yield
+    os.environ.pop("VERDICTS_PENDING_DB", None)
 
 
 
