@@ -1,0 +1,39 @@
+# HEAD test run — branch HEAD after adopt commit 3c319a2
+# Command: python -m pytest tests/test_verdicts_workflow.py -v --tb=short
+# Date: 2026-06-25
+# Python: 3.13.12 | pytest: 9.0.3 | platform: darwin
+
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/tomriddle1/PromptVerge-fix-p1c-draftflow-absent
+configfile: pyproject.toml
+
+collecting ... collected 21 items
+
+tests/test_verdicts_workflow.py::TestClampFrontBack::test_clamp_front_back PASSED
+tests/test_verdicts_workflow.py::TestClampFrontBack::test_clamp_boundary_exact PASSED
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_kebab_normalization_underscore PASSED
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_kebab_normalization_org_slash_repo PASSED
+tests/test_verdicts_workflow.py::TestKebabNormalization::test_deck_mapping PASSED
+tests/test_verdicts_workflow.py::TestWatermarkIdempotent::test_watermark_idempotent PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_done_calls_write PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[pending] PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[in-progress] PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[blocked] PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_pending_no_write[deferred] PASSED
+tests/test_verdicts_workflow.py::TestReconcileDoneCallsWrite::test_reconcile_path_conditional PASSED
+tests/test_verdicts_workflow.py::TestPartialFailureSkips::test_partial_failure_skips PASSED
+tests/test_verdicts_workflow.py::TestStatusLiteralHyphen::test_status_literal_in_post_body PASSED
+tests/test_verdicts_workflow.py::TestStatusLiteralHyphen::test_reconcile_uses_done_exact_string PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_pending_store_persists_across_restart PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_run_verdicts_flow_store_populated PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_reconcile_writes_to_real_sqlite PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_watermark_persists_across_process_restart PASSED  ← NEW (added by 3c319a2)
+tests/test_verdicts_workflow.py::test_anti_regression_flows_init_imports PASSED
+tests/test_verdicts_workflow.py::test_anti_regression_verdicts_store_import PASSED
+
+============================= 21 passed in 11.95s ==============================
+
+NOTE: A benign Prefect teardown log error ("I/O operation on closed file") appears after
+the summary line. It originates in prefect's subprocess server teardown handler, not in any
+test assertion. pytest exit code = 0. All 21 tests PASS.

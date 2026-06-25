@@ -1,0 +1,35 @@
+# Baseline test inventory — 3c319a2^ (commit e6f94f4)
+# Verified via: git show 3c319a2^:tests/test_verdicts_workflow.py | grep "def test_"
+# Date: 2026-06-25
+
+Test functions present at baseline (17 def test_ lines → 20 collected because
+test_reconcile_pending_no_write is parametrized with 4 values):
+
+  test_clamp_front_back
+  test_clamp_boundary_exact
+  test_kebab_normalization_underscore
+  test_kebab_normalization_org_slash_repo
+  test_deck_mapping
+  test_watermark_idempotent
+  test_reconcile_done_calls_write
+  test_reconcile_pending_no_write   [parametrized: pending, in-progress, blocked, deferred]
+  test_reconcile_path_conditional
+  test_partial_failure_skips
+  test_status_literal_in_post_body
+  test_reconcile_uses_done_exact_string
+  test_pending_store_persists_across_restart
+  test_run_verdicts_flow_store_populated
+  test_reconcile_writes_to_real_sqlite
+  test_anti_regression_flows_init_imports
+  test_anti_regression_verdicts_store_import
+
+ABSENT at baseline: test_watermark_persists_across_process_restart
+  Confirmed via: git checkout 3c319a2^ -- tests/test_verdicts_workflow.py &&
+                 pytest tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_watermark_persists_across_process_restart
+  Result: "ERROR: not found: ... (no match in any of [<Class TestIntegrationRealSQLite>])"
+  → 0 tests collected. Conclusively absent at baseline.
+
+Delta introduced by 3c319a2:
+  +1 test function: test_watermark_persists_across_process_restart
+  Baseline: 20 collected | HEAD: 21 collected
+  No test was removed or renamed.
