@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import logging
+import urllib.error
 from io import BytesIO
 from unittest.mock import MagicMock, call, patch
 
@@ -248,7 +249,7 @@ class TestPartialFailureSkips:
         def post_side_effect(payload, base_url="http://localhost:8000"):
             call_counter["n"] += 1
             if call_counter["n"] == 1:
-                raise Exception("HTTP 500 server error")
+                raise urllib.error.URLError("HTTP 500 server error")
             return {"id": "uuid-1", "status": "pending"}
 
         with patch("promptverge.flows.verdicts_workflow.to_flashcards",
