@@ -2,7 +2,7 @@
 
 Finding: P1a-adapter-absent  
 Baseline ref: origin/main @ 90741c0c5b6a6d5c824b26714e90f353084e6dae  
-HEAD ref: 4477052234f9042c356f731f3b508790a9c01f80  
+HEAD ref: 7a8f6a3ca86b65468dbd92197a70a83e3a6c29c1  
 Assessed: 2026-06-25  
 
 <!-- Note: "Cited baseline ref" for head_green.txt is 6c204de (commit "docs(aiv): complete

@@ -90,10 +90,10 @@ classification:
 | 6 | Every emitted card has origin_task formatted as SVP:{repo}#{... | symbol | `test_card_type_tags` asserts `card["origin_task"]=="SVP:ImmortalDemonGod/flashcore#39"` for all returned cards (tests/test_emit.py:202-207) | PASS VERIFIED |
 | 7 | to_flashcards() returns [] not raises KeyError when comparis... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
 | 8 | to_flashcards() returns list not raises KeyError when review... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
-| 9 | No 'flashcore' or 'duckdb' symbol anywhere in emit.py — P1a/... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
-| 10 | No existing tests were modified or deleted during this chang... | structural | Class C not collected | REVIEW MANUAL REVIEW |
+| 9 | No 'flashcore' or 'duckdb' symbol anywhere in emit.py — P1a/... | static | `grep -n 'flashcore\|duckdb' promptverge/emit.py` → no matches (executed CRV-8 justify-audit) | PASS VERIFIED |
+| 10 | No existing tests were modified or deleted during this chang... | structural | `git diff origin/main HEAD -- tests/` → only `tests/test_emit.py` added (new file, 335 lines); no pre-existing test file modified or deleted (executed CRV-8 justify-audit) | PASS VERIFIED |
 
-**Verdict summary:** 8 verified, 0 unverified, 2 manual review.
+**Verdict summary:** 10 verified, 0 unverified, 0 manual review.
 ---
 
 ## Verification Methodology
