@@ -127,8 +127,12 @@ ruff (0.15.19)
 Available versions: 0.15.19, 0.15.18, 0.15.17, 0.15.16, ...
 [no 25.x series listed — ruff==25.12.0 does not exist on PyPI]
 
-$ ruff --version   # PATH binary
-ruff 0.15.0        # confirms 0.x version scheme; 0.15.19 pin is correct
+$ pip install 'ruff==0.15.19' --dry-run
+Looking in indexes: https://pypi.org/simple
+Collecting ruff==0.15.19
+  Downloading ruff-0.15.19-py3-none-macosx_11_0_arm64.whl.metadata (26 kB)
+Would install ruff-0.15.19
+# exact pin resolves to exactly ruff 0.15.19 — no ambiguity
 ```
 
 ---
@@ -181,8 +185,17 @@ All checks passed!
 
 `pyproject.toml` is a TOML data file; ruff parses it for config but does not
 lint it as Python. The `All checks passed!` result is from `emit.py`.
-`pyproject.toml` structural validity is confirmed by `pip index versions ruff`
-successfully parsing it (pip reads `pyproject.toml` to resolve deps).
+`pyproject.toml` structural validity confirmed by direct TOML parse:
+
+```
+$ python3 -c "
+import tomllib, pathlib
+data = tomllib.loads(pathlib.Path('pyproject.toml').read_text())
+dev = data['project']['optional-dependencies']['dev']
+print('parsed OK; ruff pin:', next(d for d in dev if d.startswith('ruff==')))
+"
+parsed OK; ruff pin: ruff==0.15.19
+```
 
 ---
 
