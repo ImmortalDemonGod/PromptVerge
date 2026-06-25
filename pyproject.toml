@@ -16,7 +16,9 @@ dependencies = [
     "jinja2",
     "pyyaml",
     "jsonschema",
-    "gliner"
+    "gliner",
+    "flashcore @ file://../flashcore",
+    "duckdb>=1.0.0"
 ]
 
 [project.optional-dependencies]
