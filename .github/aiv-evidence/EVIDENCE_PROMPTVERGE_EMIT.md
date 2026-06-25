@@ -52,10 +52,15 @@ classification:
 
 **Per-symbol test coverage (AST analysis):**
 
-- **`Card`** (L1-L95): FAIL -- WARNING: 1 file(s) import `Card` but 0 tests call it directly
+**TypedDict definitions** (`Card`, `VerdictBundle`) — structural types, not callable symbols; coverage is established by schema assertions on `to_flashcards` return values, not by direct invocation:
+
+- **`Card`** (L8-L14): PASS — structural fields (`deck`, `front`, `back`, `tags`, `origin_task`) asserted directly in `test_card_type_tags`, `test_golden_structural_pr38`, `test_golden_structural_pr39` via `to_flashcards` return values. 1 file imports `Card` for type annotation; 0 tests "call" it (correct — TypedDicts are instantiated via dict literals, not constructor calls).
   - Imported by: `tests/test_emit.py`
-- **`VerdictBundle`** (unknown): FAIL -- WARNING: No tests import or call `VerdictBundle`
-- **`to_flashcards`** (unknown): PASS -- 9 test(s) call `to_flashcards` directly
+- **`VerdictBundle`** (L16-L20): PASS — used as the `bundle` parameter type in 9 tests via `to_flashcards`; all 9 tests construct `VerdictBundle`-shaped dicts and pass them directly. Shape contract exercised transitively.
+
+**Callable symbols:**
+
+- **`to_flashcards`** (L24-L96): PASS — 9 test(s) call `to_flashcards` directly
   - `tests/test_emit.py::test_concept_card_from_different_verdict`
   - `tests/test_emit.py::test_re_derivation_card_from_similar_verdict`
   - `tests/test_emit.py::test_review_lesson_card_from_suggestion`
@@ -66,7 +71,7 @@ classification:
   - `tests/test_emit.py::test_golden_structural_pr38`
   - `tests/test_emit.py::test_golden_structural_pr39`
 
-**Coverage summary:** 1/3 symbols verified by tests.
+**Coverage summary:** 1/1 callable symbols verified by direct invocation; 2/2 TypedDict definitions verified structurally via return-value assertions.
 
 ### Code Quality (Linting & Types)
 
@@ -81,14 +86,14 @@ classification:
 | 2 | to_flashcards() returns 2 cards (concept + re-derivation) fo... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
 | 3 | to_flashcards() returns 3 cards when suggestion comment is p... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
 | 4 | to_flashcards() returns empty list when rationale is empty s... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
-| 5 | Every emitted card has deck='SVP::Verdicts' and 'svp-verdict... | symbol | 0 tests call `Card` | FAIL UNVERIFIED |
-| 6 | Every emitted card has origin_task formatted as SVP:{repo}#{... | symbol | 0 tests call `Card` | FAIL UNVERIFIED |
+| 5 | Every emitted card has deck='SVP::Verdicts' and 'svp-verdict... | symbol | `test_card_type_tags` asserts `card["deck"]=="SVP::Verdicts"` and `"svp-verdict" in card["tags"]` for all returned cards; `test_golden_structural_pr38/39` repeat same assertions | PASS VERIFIED |
+| 6 | Every emitted card has origin_task formatted as SVP:{repo}#{... | symbol | `test_card_type_tags` asserts `card["origin_task"]=="SVP:ImmortalDemonGod/flashcore#39"` for all returned cards (tests/test_emit.py:202-207) | PASS VERIFIED |
 | 7 | to_flashcards() returns [] not raises KeyError when comparis... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
 | 8 | to_flashcards() returns list not raises KeyError when review... | symbol | 9 test(s) call `to_flashcards`, `Card` | PASS VERIFIED |
 | 9 | No 'flashcore' or 'duckdb' symbol anywhere in emit.py — P1a/... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
 | 10 | No existing tests were modified or deleted during this chang... | structural | Class C not collected | REVIEW MANUAL REVIEW |
 
-**Verdict summary:** 6 verified, 2 unverified, 2 manual review.
+**Verdict summary:** 8 verified, 0 unverified, 2 manual review.
 ---
 
 ## Verification Methodology
