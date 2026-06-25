@@ -1,8 +1,9 @@
 # AIV Evidence File (v1.0)
 
 **File:** `tests/test_verdicts_flow.py`
-**Commit:** `142f440`
-**Generated:** 2026-06-25T18:19:26Z
+**Commit:** `d57d6c6`
+**Previous:** `d57d6c6`
+**Generated:** 2026-06-25T18:20:15Z
 **Protocol:** AIV v2.0 + Addendum 2.7 (Zero-Touch Mandate)
 
 ---
@@ -15,14 +16,14 @@ classification:
   sod_mode: S0
   critical_surfaces: []
   blast_radius: "tests/test_verdicts_flow.py"
-  classification_rationale: "tier-2: new test file, no production code change, RED by design"
+  classification_rationale: "tier-2: cosmetic lint fix in test file only"
   classified_by: "Miguel Ingram"
-  classified_at: "2026-06-25T18:19:26Z"
+  classified_at: "2026-06-25T18:20:15Z"
 ```
 
 ## Claim(s)
 
-1. 7 RED tests covering: module importability, front/back clamping ≤1024, repo-slug kebab normalization, watermark dedup, POST /tasks per candidate, ADR-0002 reconcile gate (no write on pending, write on done) — all fail ModuleNotFoundError until verdicts_workflow.py is implemented
+1. Removed unused pytest import flagged by ruff F401; tests remain RED (ModuleNotFoundError) and all existing 27 tests still pass
 2. No existing tests were modified or deleted during this change.
 
 ---
@@ -32,19 +33,19 @@ classification:
 ### Class E (Intent Alignment)
 
 - **Link:** [https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222](https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/audit/02-static-audit.md#L222)
-- **Requirements Verified:** P1c-draftflow-absent: verdicts flow convert/clamp/normalize/watermark/post/reconcile
+- **Requirements Verified:** P1c-draftflow-absent: ruff clean is a gate requirement for aiv close
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`142f440`](https://github.com/ImmortalDemonGod/PromptVerge/tree/142f4400d6a4a803be1265ebe2e4f31f72108370))
+**Scope Inventory** (SHA: [`d57d6c6`](https://github.com/ImmortalDemonGod/PromptVerge/tree/d57d6c65a123e9f9292c5f9d2445db3daa49dcd2))
 
-- [`tests/test_verdicts_flow.py#L1-L312`](https://github.com/ImmortalDemonGod/PromptVerge/blob/142f4400d6a4a803be1265ebe2e4f31f72108370/tests/test_verdicts_flow.py#L1-L312)
+- [`tests/test_verdicts_flow.py#L1-L310`](https://github.com/ImmortalDemonGod/PromptVerge/blob/d57d6c65a123e9f9292c5f9d2445db3daa49dcd2/tests/test_verdicts_flow.py#L1-L310)
 
 ### Class A (Execution Evidence)
 
 **Per-symbol test coverage (AST analysis):**
 
-- **`test_module_importable_guards_against_b1_flow_absent`** (L1-L312): FAIL -- WARNING: No tests import or call `test_module_importable_guards_against_b1_flow_absent`
+- **`test_module_importable_guards_against_b1_flow_absent`** (L1-L310): FAIL -- WARNING: No tests import or call `test_module_importable_guards_against_b1_flow_absent`
 - **`test_convert_clamps_front_to_1024_guards_against_b2_overflow`** (unknown): FAIL -- WARNING: No tests import or call `test_convert_clamps_front_to_1024_guards_against_b2_overflow`
 - **`test_convert_clamps_back_to_1024_guards_against_b2_overflow`** (unknown): FAIL -- WARNING: No tests import or call `test_convert_clamps_back_to_1024_guards_against_b2_overflow`
 - **`test_convert_normalizes_underscore_repo_slug_to_kebab_guards_against_b3`** (unknown): FAIL -- WARNING: No tests import or call `test_convert_normalizes_underscore_repo_slug_to_kebab_guards_against_b3`
@@ -57,14 +58,14 @@ classification:
 
 ### Code Quality (Linting & Types)
 
-- **ruff:** 14 error(s)
+- **ruff:** All checks passed
 - **mypy:** Found 1 error in 1 file (checked 1 source file)
 
 ## Claim Verification Matrix
 
 | # | Claim | Type | Evidence | Verdict |
 |---|-------|------|----------|---------|
-| 1 | 7 RED tests covering: module importability, front/back clamp... | unresolved | No automatic binding available | REVIEW MANUAL REVIEW |
+| 1 | Removed unused pytest import flagged by ruff F401; tests rem... | structural | Class C not collected | REVIEW MANUAL REVIEW |
 | 2 | No existing tests were modified or deleted during this chang... | structural | Class C not collected | REVIEW MANUAL REVIEW |
 
 **Verdict summary:** 0 verified, 0 unverified, 2 manual review.
@@ -80,4 +81,4 @@ Ruff/mypy results are in Code Quality (not Class A) because they prove syntax/ty
 
 ## Summary
 
-RED verdicts flow tests — 7 assertions across 6 catalog bugs, fails ModuleNotFoundError
+Remove unused pytest import — ruff F401 fix
