@@ -1,0 +1,35 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python
+cachedir: .pytest_cache
+rootdir: /private/tmp/p1a-adapter_base
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+_____________________ ERROR collecting tests/test_emit.py ______________________
+ImportError while importing test module '/private/tmp/p1a-adapter_base/tests/test_emit.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/homebrew/Caskroom/miniforge/base/lib/python3.13/importlib/__init__.py:88: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_emit.py:15: in <module>
+    from promptverge.emit import Card, to_flashcards  # noqa: E402,F401 — RED until emit.py exists; Card imported to verify export
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'promptverge.emit'
+=========================== short test summary info ============================
+ERROR tests/test_emit.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.08s ===============================
+
+--- RULING-OUT EVIDENCE (package-install false-positive eliminated) ---
+$ cd /tmp/p1a-adapter_base && python -c "import promptverge; print('promptverge ok:', promptverge.__file__)"
+promptverge ok: /private/tmp/p1a-adapter_base/promptverge/__init__.py
+
+$ ls /tmp/p1a-adapter_base/promptverge/
+__init__.py  __main__.py  __pycache__  flows  main.py  prompts.py  schemas
+
+Conclusion: promptverge package IS installed and importable in baseline.
+emit.py is ABSENT from the listing. ModuleNotFoundError is solely due to
+missing emit.py, not a broken venv or missing package install.
