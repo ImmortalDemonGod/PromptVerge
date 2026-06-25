@@ -73,7 +73,7 @@ identical across baseline and HEAD.
    the non-existent pin restores that precondition without altering any
    deliverable behaviour.
 7. [Class F] `tests/test_emit.py` git provenance chain intact and unchanged
-   through this commit.
+   through this commit: `git diff 09e005c1..004d1f81 -- tests/test_emit.py` exits 0 (zero-byte diff — file untouched by 004d1f8).
 
 ---
 

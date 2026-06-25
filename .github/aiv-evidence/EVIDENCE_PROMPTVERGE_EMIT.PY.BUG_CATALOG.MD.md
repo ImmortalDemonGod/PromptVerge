@@ -39,7 +39,7 @@ classification:
 
 **Scope Inventory** (SHA: [`043ddda`](https://github.com/ImmortalDemonGod/PromptVerge/tree/043ddda4b64d8ac59b299872b1262fc1479567a5))
 
-- [`promptverge/emit.py.bug-catalog.md#L1-L168`](https://github.com/ImmortalDemonGod/PromptVerge/blob/043ddda4b64d8ac59b299872b1262fc1479567a5/promptverge/emit.py.bug-catalog.md#L1-L168)
+- [`promptverge/emit.py.bug-catalog.md#L1-L168`](https://github.com/ImmortalDemonGod/PromptVerge/blob/ed27bd9b8e3e8c2f2a9d8e751182c69b9a4ed025/promptverge/emit.py.bug-catalog.md#L1-L168)
 
 ### Class A (Execution Evidence)
 

@@ -94,7 +94,7 @@ $ python -c "from promptverge.emit import to_flashcards, Card"
 
 - [`promptverge/emit.py#L1-L68`](https://github.com/ImmortalDemonGod/PromptVerge/blob/d597fb38fcdc9817a216446b97c3491bf10e103e/promptverge/emit.py#L1-L68) — `Card` TypedDict (L8–L14), `VerdictBundle` TypedDict (L16–L23), `to_flashcards()` (L24–L68)
 - [`pyproject.toml`](https://github.com/ImmortalDemonGod/PromptVerge/blob/d597fb38fcdc9817a216446b97c3491bf10e103e/pyproject.toml) — ruff pinned to `==25.12.0` (currently-installed version per `pip show ruff`)
-- [`tests/test_emit.py`](https://github.com/ImmortalDemonGod/PromptVerge/blob/397ec5f0de5b0cf6e4d6d7bbd9abd2d4d67e7c6a/tests/test_emit.py#L1) — RED test file (unchanged by this commit; base SHA `397ec5f`)
+- [`tests/test_emit.py`](https://github.com/ImmortalDemonGod/PromptVerge/blob/397ec5f4412dd0cfee28a617d738966b94cb4789/tests/test_emit.py#L1) — RED test file (unchanged by this commit; base SHA `397ec5f`)
 - [`audit/02-static-audit.md#L220`](https://github.com/ImmortalDemonGod/PromptVerge/blob/90741c0c5b6a6d5c824b26714e90f353084e6dae/audit/02-static-audit.md#L220) — intent anchor (SHA `90741c0`)
 
 ---
