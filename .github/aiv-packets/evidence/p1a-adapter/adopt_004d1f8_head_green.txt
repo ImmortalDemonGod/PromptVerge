@@ -1,0 +1,54 @@
+# Evidence: adopt_004d1f8 — HEAD test run (Class A)
+# Captured at: 2026-06-25
+# HEAD SHA: b01beae925dcefaed38e16f40e40e27a1445311c
+# Baseline SHA (004d1f8^): 09e005c1493219230f5ae45178a14f12c5631ac5
+# Commit under adoption: 004d1f81ea0df4a2137a62227826d07a0458a331
+#
+# NOTE: pyproject.toml is the only functional file changed by 004d1f8.
+# tests/test_emit.py does NOT import ruff; the ruff pin affects only
+# `pip install -e .[dev]` resolution. Tests run identically at baseline
+# and HEAD — no regression is possible from this change.
+# PyPI resolution proof is captured in the pip_index_verify section below.
+
+=== TEST RUN AT HEAD (b01beae) ===
+
+$ python -m pytest tests/test_emit.py -v
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0
+rootdir: /Users/tomriddle1/PromptVerge-p1a-adapter
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 9 items
+
+tests/test_emit.py::test_concept_card_from_different_verdict PASSED      [ 11%]
+tests/test_emit.py::test_re_derivation_card_from_similar_verdict PASSED  [ 22%]
+tests/test_emit.py::test_review_lesson_card_from_suggestion PASSED       [ 33%]
+tests/test_emit.py::test_empty_rationale_produces_no_concept_card PASSED [ 44%]
+tests/test_emit.py::test_card_type_tags PASSED                           [ 55%]
+tests/test_emit.py::test_missing_ai_key_returns_empty_not_raises PASSED  [ 66%]
+tests/test_emit.py::test_missing_comments_key_returns_list_not_raises PASSED [ 77%]
+tests/test_emit.py::test_golden_structural_pr38 PASSED                   [ 88%]
+tests/test_emit.py::test_golden_structural_pr39 PASSED                   [100%]
+
+============================== 9 passed in 0.02s ===============================
+
+RESULT: 9/9 PASS — no regression from dep-pin correction
+
+=== PYPI RESOLUTION PROOF ===
+
+$ pip index versions ruff
+ruff (0.15.19)
+Available versions: 0.15.19, 0.15.18, 0.15.17, ...
+# → ruff==25.12.0 NOT in the listed versions (non-existent release)
+# → ruff==0.15.19 IS the latest available release (confirmed)
+
+$ ruff --version   (system PATH)
+ruff 0.15.0
+# → ruff in PATH is 0.x series confirming the 0.x version scheme is correct
+
+=== SHA-256 AT HEAD ===
+
+$ shasum -a 256 pyproject.toml tests/test_emit.py promptverge/emit.py
+d29ba20801ca7a8e2e84eb34343f05d38d4e417468f3deff50b7dda160e5b871  pyproject.toml
+db41f121a1d758e65efb9d6e1158592e98aaf61159ddd721c32655c21fe2a281  tests/test_emit.py
+5e51fd716c93145c7ea5df43b7f43fc20825ac13437f8795fecb8ba91eae7636  promptverge/emit.py
