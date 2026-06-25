@@ -1,10 +1,27 @@
-"""Pure verdict→Card adapter (P1a). No DB write, no LLM, no external card-store import."""
+"""Emitter — pure verdict→Card adapter (P1a) + flashcore write path (P1b).
+
+P1a `to_flashcards()`: pure in-memory transform of an SVP verdict sidecar into
+Card dicts — no DB write, no LLM, no external card-store import.
+P1b `write_cards_to_flashdb()`: persists flashcore Card objects to flash.db via
+FlashcardDatabase.upsert_cards_batch() (ADR 0001; the cultivation-os HTTP
+ingestion endpoint is forbidden).
+"""
 
 from __future__ import annotations
 
-from typing import TypedDict
+import os
+import time
+from pathlib import Path
+from typing import Optional, Sequence, TypedDict, Union
+
+import duckdb
+
+from flashcore.db.database import FlashcardDatabase
+from flashcore.exceptions import CardOperationError, DatabaseConnectionError
+from flashcore.models import Card as FlashcoreCard
 
 
+# ─────────────────────────── P1a: verdict→Card adapter ───────────────────────────
 class Card(TypedDict):
     deck: str
     front: str
@@ -94,3 +111,60 @@ def to_flashcards(bundle: VerdictBundle) -> list[Card]:
         )
 
     return cards
+
+
+# ─────────────────────────── P1b: flashcore write path ───────────────────────────
+_LOCK_RETRIES = 3
+_LOCK_SLEEP = 0.5
+
+_DEFAULT_DB_PATH = Path.home() / "cultivation-os" / "data" / "db" / "flash.db"
+
+
+def _resolve_db_path(db_path: Optional[Union[str, Path]]) -> Path:
+    if db_path is not None:
+        return Path(db_path)
+    env_val = os.environ.get("FLASH_DB_PATH")
+    if env_val:
+        return Path(env_val)
+    return _DEFAULT_DB_PATH
+
+
+def _is_lock_contention(e: Exception) -> bool:
+    if isinstance(e, duckdb.IOException):
+        return True
+    if isinstance(e, (DatabaseConnectionError, CardOperationError)):
+        if "lock" in str(e).lower():
+            return True
+        if isinstance(e.__cause__, duckdb.IOException):
+            return True
+    return False
+
+
+def write_cards_to_flashdb(
+    cards: Sequence[FlashcoreCard],
+    db_path: Optional[Union[str, Path]] = None,
+) -> int:
+    """
+    Persist a sequence of Card objects into flash.db via FlashcardDatabase.upsert_cards_batch().
+
+    Returns the number of rows affected. Empty input returns 0 without opening the DB.
+    Retries up to _LOCK_RETRIES times on lock contention before re-raising.
+    """
+    if not cards:
+        return 0
+
+    resolved = _resolve_db_path(db_path)
+
+    last_exc: Exception = RuntimeError("unreachable")
+    for attempt in range(_LOCK_RETRIES + 1):
+        try:
+            with FlashcardDatabase(resolved) as db:
+                return db.upsert_cards_batch(cards)
+        except (DatabaseConnectionError, CardOperationError) as exc:
+            if not _is_lock_contention(exc):
+                raise
+            last_exc = exc
+            if attempt < _LOCK_RETRIES:
+                time.sleep(_LOCK_SLEEP)
+
+    raise last_exc

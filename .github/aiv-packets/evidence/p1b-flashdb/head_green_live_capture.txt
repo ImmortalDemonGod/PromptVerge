@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/tomriddle1/PromptVerge-p1b-flashdb
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 3 items
+
+tests/test_emit_live.py::test_idempotent_upsert_same_uuids_no_duplicate_rows_guards_against_b8 PASSED [ 33%]
+tests/test_emit_live.py::test_fsrs_review_state_preserved_on_reupsert_guards_against_b9 PASSED [ 66%]
+tests/test_emit_live.py::test_single_card_roundtrip_front_back_preserved_guards_against_b1 PASSED [100%]
+
+============================== 3 passed in 0.35s ===============================
