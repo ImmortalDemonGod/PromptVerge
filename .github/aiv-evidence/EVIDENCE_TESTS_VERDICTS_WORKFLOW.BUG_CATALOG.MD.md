@@ -1,7 +1,7 @@
 # AIV Evidence File (v1.0)
 
 **File:** `tests/verdicts_workflow.bug-catalog.md`
-**Commit:** `7a176bd`
+**Commit:** `142f4400`
 **Generated:** 2026-06-25T18:17:56Z
 **Protocol:** AIV v2.0 + Addendum 2.7 (Zero-Touch Mandate)
 
@@ -36,9 +36,9 @@ classification:
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`7a176bd`](https://github.com/ImmortalDemonGod/PromptVerge/tree/7a176bd66d7427bd01167ba5f0ee7759dcae5db6))
+**Scope Inventory** (SHA: [`142f4400`](https://github.com/ImmortalDemonGod/PromptVerge/tree/142f4400d6a4a803be1265ebe2e4f31f72108370))
 
-- [`tests/verdicts_workflow.bug-catalog.md#L1-L107`](https://github.com/ImmortalDemonGod/PromptVerge/blob/7a176bd66d7427bd01167ba5f0ee7759dcae5db6/tests/verdicts_workflow.bug-catalog.md#L1-L107)
+- [`tests/verdicts_workflow.bug-catalog.md#L1-L107`](https://github.com/ImmortalDemonGod/PromptVerge/blob/142f4400d6a4a803be1265ebe2e4f31f72108370/tests/verdicts_workflow.bug-catalog.md#L1-L107)
 
 ### Class A (Execution Evidence)
 

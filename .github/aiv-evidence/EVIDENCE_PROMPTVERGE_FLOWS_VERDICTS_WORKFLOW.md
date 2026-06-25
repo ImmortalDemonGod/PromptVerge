@@ -1,7 +1,7 @@
 # AIV Evidence File (v1.0)
 
 **File:** `promptverge/flows/verdicts_workflow.py`
-**Commit:** `684f09a`
+**Commit:** `f0da04c`
 **Generated:** 2026-06-25T18:50:44Z
 **Protocol:** AIV v2.0 + Addendum 2.7 (Zero-Touch Mandate)
 
@@ -36,9 +36,9 @@ classification:
 
 ### Class B (Referential Evidence)
 
-**Scope Inventory** (SHA: [`684f09a`](https://github.com/ImmortalDemonGod/PromptVerge/tree/684f09ae4fbed3da794489932eb24253f4cd16bd))
+**Scope Inventory** (SHA: [`f0da04c`](https://github.com/ImmortalDemonGod/PromptVerge/tree/f0da04cf5e06942f55e33651e44c0cb030bd976b))
 
-- [`promptverge/flows/verdicts_workflow.py#L1-L246`](https://github.com/ImmortalDemonGod/PromptVerge/blob/684f09ae4fbed3da794489932eb24253f4cd16bd/promptverge/flows/verdicts_workflow.py#L1-L246)
+- [`promptverge/flows/verdicts_workflow.py#L1-L246`](https://github.com/ImmortalDemonGod/PromptVerge/blob/f0da04cf5e06942f55e33651e44c0cb030bd976b/promptverge/flows/verdicts_workflow.py#L1-L246)
 
 ### Class A (Execution Evidence)
 
