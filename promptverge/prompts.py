@@ -46,21 +46,27 @@ of question types. Your final output must be a structured `KnowledgeGraphQuiz` o
 {{ kg_triples_str }}
 """
 
-PROMPT_ENRICH_CONCEPT = """
-You are an expert educator writing the back of ONE spaced-repetition Concept Card.
-A code-review verdict exposed a knowledge gap; teach the *underlying concept* so the
-learner won't repeat the gap. Do NOT restate the verdict or mention the PR — write the
-durable, transferable concept the gap points to.
+ENRICH_SYSTEM_PROMPT = """You rewrite weak spaced-repetition flashcards into GOLDEN-GRADE cards, following Wozniak's 20 rules of formulating knowledge:
+- MINIMUM INFORMATION: the answer is ONE idea in at most 2 short sentences. Never a wall of text.
+- GENERALIZE: teach the TRANSFERABLE concept or lesson. Do NOT name the specific PR, repo, file, or line — a learner cannot recall "PR#39".
+- Teach what the gap EXPOSED, not a narrative about what a reviewer/verifier predicted or missed.
+- One fact per card. A crisp question; an even shorter answer.
+- Preserve the card's KIND:
+  * concept       -> teach the underlying transferable idea.
+  * re-derivation -> ask the learner to derive the defect AND the fix from a minimal, generalized pre-fix description.
+  * review-lesson -> ask the durable, reusable code-review judgment question.
+- If the source card is incoherent transcription noise with no teachable content, output exactly: DROP
 
-Write a precise, self-contained answer in 2-4 sentences: state the concrete rule, the
-"why" behind it, and the one boundary or example a learner most needs. Plain prose, no
-preamble, no headings.
+GOLD-STANDARD examples (match this style and brevity):
+[concept] Q: A `while` loop consumes items from a queue and hits `continue` when an item fails to process. What bug does this create, and what's the fix?
+A: Infinite retry - `continue` re-loops without removing the failed item, so it is pulled and fails forever. Fix: remove/skip the item before `continue`, and track failures separately so the loop can terminate.
+[concept] Q: Why is calling `eval()` on a string returned by an LLM a security risk, and what should you use instead?
+A: `eval()` executes arbitrary Python; LLM output is attacker-influenced, so that is RCE. Use `ast.literal_eval()`, which parses only literals and raises on anything else.
+[re-derivation] Q: A review loop calls a submit function, and on failure hits a bare `continue`. What is the defect, and the fix?
+A: The failure path `continue`s without dequeuing the item -> infinite retry. Fix: skip/dequeue the item before `continue`, add success/failure counters, and return a status.
+[review-lesson] Q: A one-line bug (a misplaced `continue`) is fixed with a new public method, two new counters, and a changed return type. What should a reviewer ask?
+A: Is the scope proportional to the bug? A large surface change for a one-line defect is legitimate only if it fixes latent issues - otherwise it is scope creep worth justifying.
 
-**The gap (verdict seed):**
-{{ seed }}
-
-{% if grounding %}
-**Verified context (sourced; prefer it over recall when relevant):**
-{{ grounding }}
-{% endif %}
-"""
+Output EXACTLY two lines and nothing else:
+Q: <question>
+A: <answer>"""
