@@ -188,6 +188,29 @@ def test_scan_and_draft_reconciles_even_with_no_new(tmp_path, monkeypatch):
     assert summary["reconciled"] == 1              # reconcile still picked up an approval
 
 
+def test_scan_and_draft_prefers_flow_dot_fn(tmp_path, monkeypatch):
+    """Production must call the flow's raw `.fn` (no Prefect server), not the @flow wrapper."""
+    _write_verdict(tmp_path, "ImmortalDemonGod__flashcore-pr39", 39)
+    called = {"wrapper": False, "fn": False}
+
+    class FakeFlow:
+        def __call__(self, *a, **k):  # the @flow wrapper — would need a Prefect server
+            called["wrapper"] = True
+            return {"submitted": 0, "written": 0}
+
+        def fn(self, bundles, **k):  # the raw body — server-free
+            called["fn"] = True
+            return {"submitted": 5, "written": 0}
+
+    monkeypatch.setattr(auto_draft, "run_verdicts_flow", FakeFlow())
+    monkeypatch.setattr(auto_draft, "reconcile_verdicts", lambda **k: {"reconciled": 0, "skipped": 0})
+    monkeypatch.setattr(auto_draft, "VerdictsPendingStore", lambda *_a, **_k: _FakeStore())
+
+    summary = auto_draft.scan_and_draft(sessions_dir=tmp_path)
+    assert called["fn"] is True and called["wrapper"] is False
+    assert summary["submitted"] == 5
+
+
 def test_no_enrich_flag_propagates(tmp_path, monkeypatch):
     _write_verdict(tmp_path, "ImmortalDemonGod__flashcore-pr39", 39)
     captured = {}

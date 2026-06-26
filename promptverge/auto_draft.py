@@ -146,7 +146,12 @@ def scan_and_draft(
     flow_result = {"submitted": 0, "written": 0}
     if new_bundles:
         log.info("auto-draft: %d new verdict(s) -> drafting", len(new_bundles))
-        flow_result = run_verdicts_flow(new_bundles, **flow_kwargs)
+        # Call the flow's RAW function (`.fn`), not the @flow wrapper: a hook/cron
+        # trigger must not require a live Prefect API server (the wrapper spins a
+        # flaky ephemeral one). `.fn` runs the body directly. getattr-fallback keeps
+        # the call monkeypatchable in tests (a plain stub has no `.fn`).
+        flow_fn = getattr(run_verdicts_flow, "fn", run_verdicts_flow)
+        flow_result = flow_fn(new_bundles, **flow_kwargs)
 
     recon_result = reconcile_verdicts(**recon_kwargs)
 
