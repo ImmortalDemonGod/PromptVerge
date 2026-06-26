@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.12, pytest-9.0.3, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/tomriddle1/PromptVerge-fix-p1c-draftflow-absent
+configfile: pyproject.toml
+plugins: anyio-4.13.0, mock-3.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_pending_store_persists_across_restart PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_run_verdicts_flow_store_populated 14:05:58.904 | INFO    | prefect - Starting temporary server on http://127.0.0.1:8093
+See https://docs.prefect.io/v3/concepts/server#how-to-guides for more information on running a dedicated Prefect server.
+14:06:01.171 | INFO    | Flow run 'lumpy-kelpie' - Beginning flow run 'lumpy-kelpie' for flow 'Verdicts Flow'
+14:06:02.189 | INFO    | Flow run 'lumpy-kelpie' - Finished in state Completed()
+PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_reconcile_writes_to_real_sqlite PASSED
+tests/test_verdicts_workflow.py::TestIntegrationRealSQLite::test_watermark_persists_across_process_restart 14:06:02.268 | INFO    | Flow run 'resolute-hornet' - Beginning flow run 'resolute-hornet' for flow 'Verdicts Flow'
+14:06:03.280 | INFO    | Flow run 'resolute-hornet' - Finished in state Completed()
+14:06:03.346 | INFO    | Flow run 'reasonable-bullfinch' - Beginning flow run 'reasonable-bullfinch' for flow 'Verdicts Flow'
+14:06:04.358 | INFO    | Flow run 'reasonable-bullfinch' - Finished in state Completed()
+PASSED
+
+============================== 4 passed in 7.74s ===============================
+14:06:04.746 | INFO    | prefect - Stopping temporary server on http://127.0.0.1:8093
