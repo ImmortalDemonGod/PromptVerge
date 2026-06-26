@@ -45,3 +45,22 @@ of question types. Your final output must be a structured `KnowledgeGraphQuiz` o
 **Knowledge Graph Triples (head, relation, tail):**
 {{ kg_triples_str }}
 """
+
+PROMPT_ENRICH_CONCEPT = """
+You are an expert educator writing the back of ONE spaced-repetition Concept Card.
+A code-review verdict exposed a knowledge gap; teach the *underlying concept* so the
+learner won't repeat the gap. Do NOT restate the verdict or mention the PR — write the
+durable, transferable concept the gap points to.
+
+Write a precise, self-contained answer in 2-4 sentences: state the concrete rule, the
+"why" behind it, and the one boundary or example a learner most needs. Plain prose, no
+preamble, no headings.
+
+**The gap (verdict seed):**
+{{ seed }}
+
+{% if grounding %}
+**Verified context (sourced; prefer it over recall when relevant):**
+{{ grounding }}
+{% endif %}
+"""

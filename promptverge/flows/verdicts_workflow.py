@@ -29,6 +29,7 @@ from prefect import flow
 
 from flashcore.models import Card
 from promptverge.emit import VerdictBundle, to_flashcards, write_cards_to_flashdb
+from promptverge.flows._enrich import enrich_concept_cards
 from promptverge.flows._verdicts_store import VerdictsPendingStore
 
 log = logging.getLogger(__name__)
@@ -120,11 +121,18 @@ def run_verdicts_flow(
     tasks_api_base_url: str = _TASKS_API_BASE_URL,
     db_path: Optional[str] = None,
     store_override: Optional[VerdictsPendingStore] = None,
+    enrich_concepts: bool = False,
 ) -> dict[str, Any]:
     """Convert VerdictBundles → Cards → pending store → POST tasks_api.
 
     After each successful POST, check the returned task status:
     if 'done', write the card to flash.db immediately (reconcile gate, ADR 0002).
+
+    When `enrich_concepts` is True, concept-kind cards' backs are LLM-enriched
+    (parametric @marvin.fn draft + optional DocInsight grounding, ADR 0003) before
+    they enter the pending store; enrichment degrades gracefully to the structural
+    back. Off by default — the structural loop is the proven baseline; whether to
+    enrich every card is an empirical call (ADR 0003 open question).
 
     Returns {"submitted": N, "written": M}.
     """
@@ -138,6 +146,8 @@ def run_verdicts_flow(
 
     for bundle in bundles:
         card_dicts = to_flashcards(bundle)
+        if enrich_concepts:
+            card_dicts = enrich_concept_cards(card_dicts)
         for card_dict in card_dicts:
             origin_task = card_dict.get("origin_task", "")
             ch = _card_hash(card_dict)
